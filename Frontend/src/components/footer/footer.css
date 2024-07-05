@@ -1,0 +1,71 @@
+.footer .box-container {
+    display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1rem;
+    padding: 2rem 5%;
+  }
+  
+  .footer .box-container .box h3 {
+    font-size: 1.2em;
+    color: #111;
+    padding: 1rem 0;
+  }
+  
+  .footer .box-container .box>a {
+    font-size: 1rem;
+    color: #111;
+    padding: .5rem 0;
+    display: block;
+  }
+  
+  .footer .box-container .box .links:hover {
+    color: #035857;
+  }
+  
+  .footer .box-container .box>p {
+    font-size: 1rem;
+    color: #111;
+    padding: .5rem 0;
+  }
+  
+  .footer .box-container .box>p>i {
+    padding-right: .5rem;
+    color: #4267B2;
+  }
+  
+ 
+  .footer .box-container .box form .email {
+    margin-bottom: 1rem;
+    width: 100%;
+    /* background: #fff; */
+    padding: 1rem;
+    font-size: 1rem;
+    color: #111;
+    text-transform: none;
+  }
+  .credit {
+   text-align: center;
+   background-color: rgba(45, 44, 44);
+   color: #fff;
+   padding: 1rem;
+   margin-top: auto;
+  }
+  .btn{
+    background-color:#4267B2 ;
+    border-radius: 1rem;
+    padding: 1rem;
+    border: none;
+    color: #fff;
+    margin: 1rem;
+    width: 10rem;
+    font-size: 1rem;
+}
+.btn:active{
+
+    transform: translateY(6px);
+}
+ .btn:hover{
+cursor: pointer;
+background-color: #232323;
+color: white;
+ }

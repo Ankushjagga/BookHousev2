@@ -1,42 +1,44 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'PT Sans';
+  font-family: 'Baloo Bhaijaan 2', cursive;
+  font-family: 'Ubuntu', sans-serif;
+  list-style: none;
+  text-decoration: none;
+  text-transform: capitalize;
+  transition: all .3s ease-in-out;
+  letter-spacing: 2px;
+
+}
+*::selection{
+  background:#4267B2 ;
+  color:#333;
+}
+html{
+   
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+html::-webkit-scrollbar{
+  width:1rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+html::-webkit-scrollbar-track{
+  background:rgb(61, 58, 58);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
+html::-webkit-scrollbar-thumb{
+  background: #4267B2;
 
-.card {
-  padding: 2em;
-}
+  border-radius: 3rem;
 
-.read-the-docs {
-  color: #888;
 }
+/* a{
+  color: white;
+}
+a:hover{
+  color: #4267B2;
+} */

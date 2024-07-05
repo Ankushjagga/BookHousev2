@@ -1,0 +1,113 @@
+.loginForm {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	/* padding: 0 2rem; */
+	height: 88vh;
+	text-align: center;
+	width: 49vw;
+
+    margin-left: 7rem;
+}
+
+
+.inp{
+    padding: 1rem;
+    margin: 1rem 0;
+    text-transform: none;
+    font-size: 1rem;
+    width: 30rem;
+  
+}
+
+
+#select{
+    width: 30rem;
+}
+.ghostbtn{
+    margin: 1rem;
+    padding: 1rem;
+    font-size: 1rem;
+}
+
+#bt{
+    padding:1rem 2rem;
+font-size: 1rem;
+
+}
+.container {
+  	display: flex;
+	position: relative;
+	overflow: hidden;
+	max-width: 100%;
+	/* min-height: 65vh; */
+}
+
+
+.login-in-container, .sign-up-container{
+	/* display: flex; */
+    /* border: 1px solid  #a4af0ed2; */
+    
+flex-wrap: wrap;
+}
+#bt:hover{
+    background-color: #4267B2 ;
+}
+#bt:active{
+
+    transform: translateY(.3rem)
+}
+.login-img{
+    width: 32vw;
+    margin: 3rem 0rem 2rem 8rem ;
+    -webkit-animation: mover 3s infinite  alternate;
+    animation: mover 3s infinite  alternate;
+}
+
+@-webkit-keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+}
+@keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+}
+.passwordSpan{
+    position: relative;
+}
+  .passwordSpan>.fa-solid{
+    position: absolute;
+    right: 4%;
+    top: 40%;
+    cursor: pointer;
+  }
+@media (max-width:991px) {
+    .login-in-container{
+        height: auto;
+    }
+    .loginForm,.details{
+        width: 100vw;
+        height: 100vh;
+    }
+    .inp{
+
+        padding: 2rem;
+        width: 80vw;
+    }
+   
+    #bt{
+        font-size: 1.5rem;
+    }
+.ghostbtn,.details>p{
+    font-size: 2rem;
+}
+.details>h1{
+    font-size: 4rem;
+}
+}
+@media (max-width:401px) {
+.inp{
+    width: 60vw;
+}
+}

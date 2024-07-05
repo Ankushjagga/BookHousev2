@@ -1,0 +1,57 @@
+.row{
+    display: flex;
+    margin: 2rem;
+    flex-wrap: wrap;
+    }
+    .cont-left{
+        margin-right: 10rem;
+        margin-top: 3rem;
+        width: 30%;
+        /* display: flex; */
+        /* justify-content: center; */
+        /* align-items: center; */
+    }
+    .cont-left>img{
+        margin-left: 3rem;
+        border-radius: 1rem;
+       width: 100%;
+       height: auto;
+    
+      
+    }
+ 
+  
+    .con-right{
+        width: 50%;
+    }
+        .con-right>h1{
+            margin: .5rem;
+        }
+        .con-right>span{
+            margin: 1rem;
+        }
+        .instruct>h4{
+            margin:  1.5rem 0  ;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+        }
+        .instruct>p{
+            margin: 1.6rem 0;
+        }
+        .features>h4{
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+        }
+        .features>ol>.list>li{
+            padding: 1rem;
+        }
+    
+    .desc{
+        line-height: 2rem;
+    }
+    .list{
+        list-style: disc;
+    }
+    .shop-fetures>li {
+        padding: 1rem;
+    }

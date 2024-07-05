@@ -1,0 +1,156 @@
+.banner{
+    width: 100%;
+    height: 85vh;
+    background:  url("../../images/home1.png") ;
+position :relative;
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* background-position: center; */
+}
+.banner2{
+    position: absolute;
+    background:  url("../../images/home2.png") ;
+    width: 50%;
+    height: 55vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    left: 50%;
+}
+.banner-head{
+    position: absolute;
+    color: white;
+    top: 20%;
+    left: 20%;
+}
+.banner-head>h1{
+    margin: 1rem;
+    font-size: 3rem;
+}
+.banner-head>p{
+    margin: 1rem;
+    line-height: 3rem;
+    font-size: 1.3rem;
+}
+/* .in-banner{
+    position: absolute;
+    top: 25%;
+    margin: 2rem;
+padding: 1rem;
+color: white;
+} */
+.explore{
+    background-color: transparent;
+    border: 1px solid;
+    border-radius: 1rem;
+    padding: 1rem;
+    color: #fff;
+    margin: 1rem;
+    width: 10rem;
+    font-size: 1rem;
+    cursor: pointer;
+  
+}
+.explore {
+    color: white;
+
+}
+.random{
+    color: inherit;
+
+    background-color: #4267B2;
+}
+.exp {
+    position: absolute;
+    top: 99%;
+    left: 25%;
+    display: flex;
+}
+.explore>a, .random>a{
+    color: white;
+}
+
+.explore:active{
+    transform: translateY(1.5rem);
+
+}
+.categories{
+    text-align: center;
+    margin: 2rem;
+}
+.sp{
+    
+    border: 2px solid;
+border-radius: 1rem;
+padding: 1rem;
+font-weight: 400;
+}
+.rad{
+    color: #4267B2;
+}
+.sub-category{
+    margin: 1rem 0 0 5rem;
+    font-weight: lighter;
+}
+.subscribe {
+    background: linear-gradient(rgba(20, 19, 19, 0.3), rgb(11, 4, 4)),  url("../../images/banner2.jpg");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 60vh;
+    position: relative;
+    width: 100%;
+}
+.subscribe>h4 {
+    color: white;
+    position: absolute;
+    left: 10%;
+    top: 20%;
+    font-size: 2rem;
+}
+.subscribe>p {
+    color: white;
+    position: absolute;
+    left: 10%;
+    top: 35%;
+    letter-spacing: 3px;
+    line-height: 2rem;
+}
+.subscribe>button {
+    color: white!important;
+    position: absolute;
+    left: 9%;
+    top: 55%;
+        background-color: #4267B2;
+        border-radius: 1rem;
+        padding: 1rem;
+        border: none;
+        margin: 1rem;
+        width: 10rem;
+        font-size: 1rem;
+}
+.subscribe>button:hover{
+    background-color: #232323;
+}
+@media (max-width:900px){
+.exp{
+  left:10%
+}
+.banner-head>p{
+    line-height: 3rem;
+    font-weight: bolder;
+}
+.banner-head{
+    /* top: 25%; */
+    left: -1%;
+}
+.banner2{
+
+   
+    width: 56%;
+    height: 69vh;
+  
+    left: 44%;
+}
+}

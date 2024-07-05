@@ -7,7 +7,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       name: {
         type: Sequelize.STRING
@@ -23,6 +23,11 @@ module.exports = {
       },
       image: {
         type: Sequelize.TEXT
+      },
+      features : {
+        type:Sequelize.JSON,
+        
+
       },
       createdAt: {
         allowNull: false,

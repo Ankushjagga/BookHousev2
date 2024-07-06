@@ -82,6 +82,38 @@ const data =
       );
 
 
+   //CONTACT US
+   export const contactUs = createAsyncThunk(
+    "auth/contactUs",
+    async (obj, thunkAPI) => {
+    console.log(obj)
+      try {
+        const response = await fetch(`http://localhost:5000/v2/auth/contactUs`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(obj),
+        });
+        const data = await response.json();
+        if (response?.status === 200) {
+          
+          console.log(data, "data");
+          return data;
+        } else {
+          return thunkAPI.rejectWithValue(data);
+        }
+      } catch (e) {
+        console.log("Error", e.response.data);
+        thunkAPI.rejectWithValue(e.response.data);
+      }
+    }
+  );
+
+
+
+
       const initialStateValues = {
         isAuthSliceFetching: false,
         isAuthSliceSuccess: false,
@@ -124,6 +156,7 @@ const data =
             state.isAuthSliceSuccess = true;
             state.loggedInUserName = payload?.name ;
             state.loggedInUserId = payload?.id
+            state.authSliceSuccessMessage = payload?.message || "Regsiter sucessfully"
             //   state.token = payload.token.access.token;
       
             return state;
@@ -138,6 +171,8 @@ const data =
           builder.addCase(registerUser.rejected, (state, { payload }) => {
             state.isAuthSliceFetching = false;
             state.isAuthSliceSuccess = false;
+            state.isAuthSliceError = true
+            state.authSliceErrorMessage = payload?.message ||  "something went wrong"
             console.log(payload);
 
             return state;
@@ -151,6 +186,7 @@ const data =
             state.loggedInUserName = payload?.name,
             state.loggedInUserId = payload?.id
             //   state.token = payload.token.access.token;
+            state.authSliceSuccessMessage = payload?.message || "login sucessfully"
       
             return state;
           });
@@ -163,10 +199,43 @@ const data =
           builder.addCase(loginUser.rejected, (state, { payload }) => {
             state.isAuthSliceFetching = false;
             state.isAuthSliceSuccess = false;
+            state.isAuthSliceError = true
+            state.authSliceErrorMessage =   "something went wrong"
+
  console.log(payload)
 
             return state;
           });
+
+
+//LOGIN USER REDUCER
+builder.addCase(contactUs.fulfilled, (state, { payload }) => {
+  state.isAuthSliceFetching = false;
+  console.log(payload , "asdadadsdasdas");
+  state.isAuthSliceSuccess = true;
+  //   state.token = payload.token.access.token;
+  state.authSliceSuccessMessage = payload?.message || "message send sucessfully"
+
+  return state;
+});
+builder.addCase(contactUs.pending, (state, { payload }) => {
+  state.isAuthSliceFetching = true;
+  state.isAuthSliceSuccess = false;
+  
+  return state;
+});
+builder.addCase(contactUs.rejected, (state, { payload }) => {
+  state.isAuthSliceFetching = false;
+  state.isAuthSliceSuccess = false;
+  state.isAuthSliceError = true
+  state.authSliceErrorMessage =   "something went wrong"
+
+console.log(payload)
+
+  return state;
+});
+
+
         },
         
     });

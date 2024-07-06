@@ -114,6 +114,7 @@ border-radius: 10rem;
 }
 .lin{
     margin: 0 2rem 0 0;
+    cursor: pointer;
 
 }
 .lin:hover, .nav-link:hover{

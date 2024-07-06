@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 import store from "./redux/store"
 import {router} from "./App"
+import { ToastContainer } from 'react-toastify';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -11,6 +12,7 @@ root.render(
 
 
     <RouterProvider router={router} />
+    <ToastContainer/>
 
 </Provider>
 

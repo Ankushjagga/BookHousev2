@@ -127,10 +127,103 @@ return res.status(200).send(respObj);
 }
 
 
+/* -----CONTACT US */
+const contactUs = async (req,res)=>{
+    let respObj = {
+        data : null,
+        message : ""
+    }
+    try {
+   
+    const {name , email ,message } = req.body;
+
+    //CHECK IF ANY FIELD IS EMPTY
+    if(!email || !name || !message) {
+        respObj.message = "Enter fields Properly !";
+        return res.status(400).send(respObj);
+    }
+
+    
+
+respObj.data = userToken
+respObj.message = "message send sucessFully"
+return res.status(200).send(respObj);
+
+} 
+    catch (error) {
+        console.log(error);
+        respObj.message = error
+        res.status(400).send(respObj)
+        
+    }
+
+}
+
+
+/* -----RESET PASSWORD */
+const resetPassword = async (req,res)=>{
+    let respObj = {
+        data : null,
+        message : ""
+    }
+    try {
+        const decoded = jwt.verify(req.params.token, process.env.PASSPORT_SECRET_KEY);
+        console.log(decoded);
+          //CHECK IF ANY FIELD IS EMPTY
+    // if(!email) {
+    //     respObj.message = "Enter fields Properly !";
+    //     return res.status(400).send(respObj);
+    // }
+const user = await User.findOne(  { where : {email :decoded.email}});
+if(!user){
+    respObj.message = "invalid token"
+    respObj.data = null
+    return  res.status(400).json(respObj);
+}
+let userToJtok = _.pick(user, ["email", "id",""]);
+
+    let tokCandidate = Object.assign(userToJtok, {
+      expiresIn: 600,
+    });
+
+    let token = jwt.sign(tokCandidate, process.env.PASSPORT_SECRET_KEY);
+
+mailSend("Reset your password", `click link to resetPassword : http://localhost:5000/resetPassword/${token}`, email)
+let password = await bcrypt.hashSync(
+    req.body.password,
+    bcrypt.genSaltSync(10),
+    null
+  );
+
+let result = await User.update({
+    password : password
+})
+  
+
+
+    
+
+respObj.data = userToken
+respObj.message = "message send sucessFully"
+return res.status(200).send(respObj);
+
+} 
+    catch (error) {
+        console.log(error);
+        respObj.message = error
+        res.status(400).send(respObj)
+        
+    }
+
+}
+
+
+
 
 
 
 module.exports = {
     RegisterUser,
-    loginUser
+    loginUser,
+    contactUs
 }

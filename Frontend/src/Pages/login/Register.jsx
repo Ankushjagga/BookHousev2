@@ -11,18 +11,21 @@ import { useDispatch, useSelector } from 'react-redux';
 const Register = () => {
 
   const history=useNavigate();
-  const [user,setUser]=useState({
-    name:"", email:"",password:"", phoneNumber:""
-  });
+  const [user,setUser]=useState({   name:"", email:"",password:"", phoneNumber:""});
+  const [error,setError]=useState({   name:"", email:"",password:"", phoneNumber:""});
   const [icon, setIcon] = useState("fa-eye-slash")
   const [passwordInput , setPasswordInput] = useState("password")
+
   const dispatch = useDispatch();
-  const {loggedInUserName} = useSelector(authData)
+  const {loggedInUserName, isAuthSliceSuccess , authSliceSuccessMessage , isAuthSliceError , authSliceErrorMessage} = useSelector(authData)
+
+
 let name,value;
   const handleInputs=(e)=>{
     name=e.target.name;
     value=e.target.value;
 setUser({...user,[name]:value})
+setError({...error , [name]:""})
   }
   const handleEyeClick = () =>{
     if (icon === "fa-eye-slash") {
@@ -37,8 +40,55 @@ setUser({...user,[name]:value})
 
 const handleSubmit = (e)=>{
   e.preventDefault();
+const newErrorObj = {   name:"", email:"",password:"", phoneNumber:""}
+if(!user.name){
+  newErrorObj.name = "name is required"
+}
+if(!user.email) {
+  newErrorObj.email = "email is required"
+}
+if(!user.password){
+  newErrorObj.password =  "password is required"
+}
+if(!user.phoneNumber){
+  newErrorObj.phoneNumber = "phoneNumber is required"
+}
+
+for (const key in newErrorObj) {
+  if (newErrorObj[key]) {
+    setError(newErrorObj)
+    return ;
+    
+  }
+}
+
   console.log("submit");
   dispatch(registerUser(user))
+}
+
+if(isAuthSliceSuccess){
+  toast.success(authSliceSuccessMessage, {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    });
+}
+if(isAuthSliceError){
+  toast.error(authSliceErrorMessage, {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    }); 
 }
   return (
   <>
@@ -50,13 +100,16 @@ const handleSubmit = (e)=>{
 <form method='POST' className='loginForm signinForm'>
       <h1>Register Yourself</h1>
   <input type="text"className='inp' placeholder="Enter name"   name="name"  value={user.name} onChange={handleInputs} required/>
+  {error.name}
   <input type="email"className='inp' placeholder="Enter Email"   name="email" value={user.email} onChange={handleInputs}required/>
+  {error.email}
   <span className = "passwordSpan">
 
   <input type={passwordInput} className='inp'placeholder="Enter Password"   name="password" value={user.password} onChange={handleInputs} required/> <i className={`fa-solid ${icon}`} onClick={handleEyeClick} ></i>
+  {error.password}
 </span> 
   <input type="number"className='inp' placeholder="Enter PhoneNumber"   name="phoneNumber" value={user.phoneNumber} onChange={handleInputs}  required/>
-
+{error.phoneNumber}
 
 <button className='btn' id='bt' type="submit" placeholder='Submit' onClick={handleSubmit}>Register</button>
 

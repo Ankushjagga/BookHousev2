@@ -12,10 +12,14 @@ import Explorecategories from "./Pages/category/Explorecategories"
 import Explorelatest from './Pages/ExploreLatest/Explorelatest';
 import Explorerandom from './Pages/ExploreRandom/Explorerandom';
 import Cartpage from './Pages/Cart/Cartpage';
-import { ToastContainer } from 'react-toastify';
 import Layout from './components/Layout/Layout';
 import Error from './Pages/Error/Error';
-
+import 'react-toastify/dist/ReactToastify.css';
+import Cookies from "js-cookie";
+import { Navigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+const token = Cookies.get("token");
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,7 +27,13 @@ export const router = createBrowserRouter(
     <Route path='' element={<Home />} />
 <Route exact path="/shop" element={<Shop/>}/>
 <Route exact path="/cart" element={<Cartpage/>}/>
-<Route exact path="/contact" element={<Contact/>}/>
+<Route exact path="/contact" element={
+        token ? <Contact /> : (
+          <>
+            <Navigate to="/login" replace state={{ from: '/contact' }} />
+          </>
+        )
+      } /> 
 <Route exact path="/register" element={<Register/>}/>
 <Route exact path="/login" element={<Login/>}/>
 <Route exact path="/category" element={<Category/>}/>
@@ -33,6 +43,7 @@ export const router = createBrowserRouter(
 <Route exact path="/exploreRandom" element={<Explorerandom/>}/>
 <Route exact  path ="/*"  element={<Error/>} ></Route>
 <Route exact path="/logout" element={<Logout/>}></Route>
+
     </Route>
   )
  )
@@ -41,17 +52,10 @@ export const router = createBrowserRouter(
 
 
 function App() {
-  
 
   return (
 
     <>
-
-
-
-<h1>helloooo</h1>
-
-
     </>
   );
 }

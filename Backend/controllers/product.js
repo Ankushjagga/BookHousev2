@@ -6,13 +6,14 @@ const Categories = require("../models").categories
 
 /* -----GET ALL PRODUCT  */
 const getAllProduct = async (req,res)=>{
-    try {
-        
-
     let respObj = {
         data : null,
         message : ""
     }
+    try {
+        
+
+
 
     const result = await Product.findAll({});
 respObj.data = result ;

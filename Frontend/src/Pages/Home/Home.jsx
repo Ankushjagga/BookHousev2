@@ -3,15 +3,20 @@ import Catrgory from '../../components/cards/catrgory'
 import "./home.css"
 import { NavLink } from 'react-router-dom'
 import Card4 from '../../components/cards/Card4'
-import  { getAllProducts, productData , getAllCategories } from '../../redux/Product'
+import  { getAllProducts, productData , getAllCategories , totalItemsInCart } from '../../redux/Product'
 import { useDispatch, useSelector } from 'react-redux'
 const Home = () => {
   const { isProductSliceFetching , isProductSliceSuccess , productSliceErrorMessage  , productList , categoriesList}  = useSelector(productData)
   const dispatch  = useDispatch()
   useEffect(() => {
-     dispatch(getAllProducts())
+     dispatch(getAllProducts({ searchValue:""}))
      dispatch(getAllCategories())
+     dispatch(totalItemsInCart())
      }, [])
+
+    
+     
+   
 
   return (
     <>

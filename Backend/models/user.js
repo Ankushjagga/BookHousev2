@@ -59,6 +59,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue : "user"
+    },
+    messages :{
+      type: DataTypes.JSON,
     }
   }, {
     sequelize,

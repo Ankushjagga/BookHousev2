@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect , useState} from 'react'
 
 import {  NavLink, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
@@ -6,22 +6,44 @@ import "./Cartpage.css"
 import CartAmountToggle from '../../components/CartAmountToggle/CartAmountToggle';
 import { FaTrash } from 'react-icons/fa';
 import Stripebutton from '../../components/Stripebutton/Stripebutton';
+import { useDispatch, useSelector } from 'react-redux';
+import { productData , cartProducts , totalItemsInCart , deleteCartProducts } from '../../redux/Product';
+import Cookies from 'js-cookie';
 const Cartpage = () => {
 
-    const history = useNavigate()
+    const Naavigate = useNavigate()
     
+const dispatch = useDispatch()
+const {cartProductsList  , totalCartItems} = useSelector(productData)
+const [totalAmount, setTotalAmount] = useState(0); 
+console.log(cartProductsList);
+const token = Cookies.get("token");
+useEffect(() => {
+dispatch(cartProducts())
+}, [])
+
+useEffect(() => {
+ if(!token){
+Naavigate("/login")
+ }
+}, [])
 
 
-   
+   // Function to calculate total amount
+   useEffect(() => {
+    let total = 0;
+    cartProductsList.forEach((elem) => {
+        total += elem.Product?.price * elem.quantity;
+    });
+    setTotalAmount(total);
+}, [cartProductsList]);
+const removeitem = (id , name) =>{
+ const remove = confirm(`Are you sure you want to delete ${name} `);
+if(remove){
 
-if(cart.length===0){
-  return (
-    <>
-    <div className='empty'>No Item in the Cart 😟</div>
-    </>
-  )
-  }
-
+  dispatch(deleteCartProducts({productId : id}));
+}
+}
 
   return (
     <>
@@ -37,31 +59,32 @@ if(cart.length===0){
             <th>Remove</th>
           </tr>
           </thead>
-          {cart.map(elem=>{
+          {cartProductsList && token && cartProductsList.map(elem=>{
             return (
 <tbody key={elem.id}>
 
              <tr >
               <td>
 
-              <figure><img src={`/images/${elem.image}`} alt={elem.name} className='cart-img'/></figure>
-              <p>{elem.name}</p>
+              <figure><img src={`/images/${elem?.Product?.image}`} alt={elem?.Product?.name} className='cart-img'/></figure>
+              <p>{elem?.Product?.name}</p>
               </td>
 
               <td>
 
-              {elem.price}₹
+              {elem?.Product?.price}₹
               </td>
               <td className='quantity'>
-              <CartAmountToggle
-          amount={elem.amount}
-          setDecrease={()=>setdecrease(elem.id)}
-          setIncrease={()=>setincrease(elem.id)}
+                <div className='amount-style'>{elem?.quantity}</div>
+              {/* <CartAmountToggle
+          amount={elem.quantity} 
+          setDecrease={()=>setDecrease(elem.id, elem.quantity)}
+          setIncrease={()=>setIncrease(elem.id , elem.quantity)}
           className="amount"
-          />
+          /> */}
               </td>
-              <td className='subtotal'>{elem.price*elem.amount} ₹</td>
-              <td onClick={()=>removeitem(elem.id)} style={{cursor:"pointer"}}> <FaTrash/></td>
+              <td className='subtotal'>{elem.Product?.price*elem.quantity} ₹</td>
+              <td onClick={()=>removeitem(elem.product_id , elem.Product.name)} style={{cursor:"pointer"}}> <FaTrash/></td>
           </tr>
          
           </tbody>
@@ -70,20 +93,30 @@ if(cart.length===0){
           </table>
       
           </div>
-         
+         {cartProductsList.length && token &&
+         <>
           <span className='total'>
-            <p>SubTotal :  {total_amount} ₹</p>
-          <p>Shipping Fees : {shipping_fees}₹ </p>
+            <p>SubTotal :  {totalAmount} ₹</p>
+          <p>Shipping Fees : {(cartProductsList.length)* 50}₹ </p>
           <hr/>
-          <p>order total :  {total_amount + shipping_fees} ₹</p>
+          <p>order total :  {totalAmount + (cartProductsList.length)*50} ₹</p>
           </span>
           <div className='btnss'>
-
-  <Stripebutton price={total_amount+ shipping_fees} onClick={()=>cartpage} />
-<button className='btn bts' onClick={clearcart}>
-clear Cart
-</button>
   </div>
+    {/* <Stripebutton price={total_amount+ shipping_fees} onClick={()=>cartpage} /> */}
+{/* <button className='btn bts' onClick={clearcart}> */}
+{/* clear Cart */}
+{/* </button> */}
+            </>
+
+
+          }
+  {
+cartProductsList.length === 0  && token &&
+    <div className='empty'>No Item in the Cart 😟</div>
+
+}
+
     </>
   )
 }

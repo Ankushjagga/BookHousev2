@@ -19,7 +19,15 @@
     
       
     }
- 
+    .disablebtns{
+        color: black;
+        background: gray;
+        cursor: pointer;
+        border: none;
+        border-radius: .5rem;
+        padding: .5rem;
+
+    }
   
     .con-right{
         width: 50%;
@@ -55,3 +63,4 @@
     .shop-fetures>li {
         padding: 1rem;
     }
+   

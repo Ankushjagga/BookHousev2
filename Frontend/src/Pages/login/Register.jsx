@@ -1,16 +1,18 @@
-import React,{useState,useContext} from 'react'
+import React,{useState,useContext , useEffect} from 'react'
 
 import Image from "../../images/register.png"
 import { NavLink ,useNavigate} from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { authData, registerUser } from '../../redux/auth';
+import { authData, clearAllSliceStates, registerUser } from '../../redux/auth';
 
 import "./register.css";
 import { useDispatch, useSelector } from 'react-redux';
+import Cookies from "js-cookie";
+
 const Register = () => {
 
-  const history=useNavigate();
+  const Navigate=useNavigate();
   const [user,setUser]=useState({   name:"", email:"",password:"", phoneNumber:""});
   const [error,setError]=useState({   name:"", email:"",password:"", phoneNumber:""});
   const [icon, setIcon] = useState("fa-eye-slash")
@@ -18,6 +20,59 @@ const Register = () => {
 
   const dispatch = useDispatch();
   const {loggedInUserName, isAuthSliceSuccess , authSliceSuccessMessage , isAuthSliceError , authSliceErrorMessage} = useSelector(authData)
+  const token = Cookies.get("token")
+
+  useEffect(() => {
+    if(token){
+      toast.error("need to logout first", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        }); 
+      Navigate("/")
+    }
+   
+  }, [])
+
+useEffect(() => {
+if(isAuthSliceSuccess){
+  dispatch(clearAllSliceStates())
+  toast.success(authSliceSuccessMessage, {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    });
+    Navigate("/")
+}
+
+}, [isAuthSliceSuccess])
+
+useEffect(() => {
+  if(isAuthSliceError){
+  dispatch(clearAllSliceStates())
+
+    toast.error(authSliceErrorMessage, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      }); 
+  }
+}, [isAuthSliceError])
 
 
 let name,value;
@@ -64,32 +119,15 @@ for (const key in newErrorObj) {
 
   console.log("submit");
   dispatch(registerUser(user))
+  // Navigate("/")
 }
 
-if(isAuthSliceSuccess){
-  toast.success(authSliceSuccessMessage, {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-    });
-}
-if(isAuthSliceError){
-  toast.error(authSliceErrorMessage, {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-    }); 
-}
+
+
+console.log("authslcie ", isAuthSliceSuccess)
+
+
+
   return (
   <>
   <div className="container" id="container">

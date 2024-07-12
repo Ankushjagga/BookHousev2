@@ -1,4 +1,4 @@
-import React,{useState,useContext} from 'react'
+import React,{useState,useContext, useEffect} from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./register.css"
@@ -6,8 +6,9 @@ import { NavLink , useNavigate } from 'react-router-dom'
 import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Image from "../../images/Login.png"
-import { authData, loginUser, registerUser } from '../../redux/auth';
+import { authData, loginUser, registerUser , clearAllSliceStates } from '../../redux/auth';
 import { useDispatch , useSelector } from 'react-redux';
+import Cookies from "js-cookie";
 
 const Login = () => {
 
@@ -20,7 +21,60 @@ const Login = () => {
   const {loggedInUserName, isAuthSliceSuccess , authSliceSuccessMessage , isAuthSliceError , authSliceErrorMessage} = useSelector(authData)
 
 
-  const history=useNavigate();
+  const Navigate =useNavigate();
+const token = Cookies.get("token")
+
+  useEffect(() => {
+    if(token){
+      toast.error("need to logout first", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        }); 
+      Navigate("/")
+    }
+   
+  }, [])
+  useEffect(() => {
+    if(isAuthSliceSuccess){
+      dispatch(clearAllSliceStates())
+      toast.success(authSliceSuccessMessage, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+        Navigate("/")
+    }
+    
+    }, [isAuthSliceSuccess])
+    
+    useEffect(() => {
+      if(isAuthSliceError){
+  dispatch(clearAllSliceStates())
+
+        toast.error(authSliceErrorMessage, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          }); 
+      }
+    }, [isAuthSliceError])
+    
 
 let name,value;
   const handleInputs=(e)=>{
@@ -64,31 +118,12 @@ for (let key in newErrorObj) {
   }
 
   dispatch(loginUser(user))
-}  
-if(isAuthSliceSuccess){
-  toast.success(authSliceSuccessMessage, {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-    });
-}
-if(isAuthSliceError){
-  toast.error(authSliceErrorMessage, {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-    }); 
-}
+} 
+
+
+
+
+
   return (
    <>
    <div className="container" id="container">
@@ -107,6 +142,7 @@ if(isAuthSliceError){
   </span>
 
   <button className='btn' id='bt'  placeholder='Submit'onClick={handleSubmit}  >Submit</button>
+  <NavLink to="/forgetPassword"><i style={{color: "#4267B2",textDecoration:"underline"}} > Forget Password?</i></NavLink> 
   <p style={{margin: "1rem"}} >New to BookHouse? <NavLink to="/register"><i style={{color: "#4267B2",textDecoration:"underline"}} > Sign up now.</i></NavLink> </p>
 </form>
 

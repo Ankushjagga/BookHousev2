@@ -16,11 +16,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   CartItem.init({
-    cart_id: DataTypes.INTEGER,
-    product_id: DataTypes.INTEGER,
+    cart_id:{ type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4, },
+    product_id: { type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4, },
     quantity: DataTypes.INTEGER,
     added_at: DataTypes.DATE,
-    updated_at: DataTypes.DATE
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'CartItem',

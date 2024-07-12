@@ -11,7 +11,7 @@ const Shop = () => {
   const { isProductSliceFetching , isProductSliceSuccess , productSliceErrorMessage  , productList}  = useSelector(productData)
   const dispatch  = useDispatch()
   useEffect(() => {
-     dispatch(getAllProducts())
+     dispatch(getAllProducts({searchValue : ""}))
      }, [])
   return (
    <>

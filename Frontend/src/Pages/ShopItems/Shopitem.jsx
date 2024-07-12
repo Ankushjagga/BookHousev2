@@ -3,10 +3,14 @@ import React, { useState, useEffect } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import RingLoader from "react-spinners/RingLoader";
 import CartAmountToggle from "../../components/CartAmountToggle/CartAmountToggle";
-import { getSingleProduct, productData, clearAllSliceData } from "../../redux/Product";
+import { getSingleProduct, productData, clearAllSliceData , addToCart, clearAllSliceStates } from "../../redux/Product";
 // import { toast } from 'react-toastify';
 import "./shopitem.css";
+import {  toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from "react-redux";
+import Cookies from "js-cookie";
+
 const override = {
   display: "block",
   margin: "10rem auto",
@@ -20,8 +24,10 @@ const Shopitem = () => {
   const [loading, setLoading] = useState(false); 
   // const { addtoCart } = useCartcontext();
   const [amount, setAmount] = useState(1);
-  let { id } = useParams();
+  const token = Cookies.get('token');
 
+  let { id } = useParams();
+const {isProductSliceFetching , isProductSliceSuccess , productSliceErrorMessage , productSliceSuccessMessage} = useSelector(productData)
   const setDecrease = () => {
     amount > 1 ? setAmount(amount - 1) : setAmount(1);
   };
@@ -33,15 +39,30 @@ const Shopitem = () => {
   
   useEffect(() => {
  dispatch(getSingleProduct(id))
- return ()=>{
-  dispatch(clearAllSliceData())
- }
+
   }, [])
 
   useEffect(() => {
    setuser(singleProduct)
   }, [singleProduct])
   
+  
+  // useEffect(() => {
+  // if(isProductSliceSuccess){
+  //   dispatch(clearAllSliceData())
+  //   dispatch(clearAllSliceStates())
+  //  toast(productSliceSuccessMessage,{position: "top-right",
+  //   autoClose: 5000,
+  //   hideProgressBar: true,
+  //   closeOnClick: false,
+  //   pauseOnHover: false,
+  //   draggable: true,
+  //   type:"success",
+  //   progress: undefined,
+  //   theme: "dark",})
+
+  // }
+  // }, [isProductSliceSuccess])
   
 
 
@@ -58,6 +79,13 @@ const Shopitem = () => {
 
   // }
 
+  const handleAddToCart = ()=>{
+    console.log("clickedd")
+    dispatch(addToCart({
+       id ,
+     amount
+    }))
+  }
 
 
   return (
@@ -128,14 +156,21 @@ const Shopitem = () => {
                     className="amount"
                   />
                   {/* <NavLink to = "/cart"> */}
-
+{token ?
                   <button
-                    className="btns"
-                    title="Add To Cart"
-                    onClick={() => addtoCart(amount, user)}
+                  className="btns"
+                  title="Add To Cart"
+                  onClick={handleAddToCart}
                   >
                     Add To Cart<i className="fa-solid fa-cart-shopping"></i>
                   </button>
+                  : 
+                  <>
+                  <button  className=" disablebtns" disabled
+                  title="Add To Cart">Add to cart</button> 
+                  <h5>Login to add item to cart</h5>
+                  </> 
+                  }
                   {/* </NavLink> */}
                 </span>
               </div>

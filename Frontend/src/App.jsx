@@ -19,6 +19,9 @@ import Cookies from "js-cookie";
 import { Navigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ForgetPassword from './Pages/ForgetPassword/ForgetPassword';
+import ResetPassword from './Pages/ResetPassword/ResetPassword';
+import Search from './Pages/search/Search';
 const token = Cookies.get("token");
 
 export const router = createBrowserRouter(
@@ -27,13 +30,7 @@ export const router = createBrowserRouter(
     <Route path='' element={<Home />} />
 <Route exact path="/shop" element={<Shop/>}/>
 <Route exact path="/cart" element={<Cartpage/>}/>
-<Route exact path="/contact" element={
-        token ? <Contact /> : (
-          <>
-            <Navigate to="/login" replace state={{ from: '/contact' }} />
-          </>
-        )
-      } /> 
+<Route exact path="/contact" element={<Contact />  } /> 
 <Route exact path="/register" element={<Register/>}/>
 <Route exact path="/login" element={<Login/>}/>
 <Route exact path="/category" element={<Category/>}/>
@@ -41,8 +38,12 @@ export const router = createBrowserRouter(
 <Route exact path="/categories/:id" element={<Explorecategories/>}/>
 <Route exact path="/exploreLatest" element={<Explorelatest/>}/>
 <Route exact path="/exploreRandom" element={<Explorerandom/>}/>
+<Route path="/resetPassword/:token" element={<ResetPassword />}/> 
+
 <Route exact  path ="/*"  element={<Error/>} ></Route>
 <Route exact path="/logout" element={<Logout/>}></Route>
+<Route exact path="/forgetPassword" element={<ForgetPassword/>}></Route>
+<Route exact path="/search" element={<Search/>}/>
 
     </Route>
   )

@@ -6,7 +6,7 @@ const _ = require("loadsh")
 const jwt = require("jsonwebtoken")
 const mailSend = require("../mails/mail")
 const { v4: uuidv4 } = require("uuid");
-
+const passport = require('passport');
 
 
 /* -----REGISTER USER  */
@@ -63,7 +63,7 @@ if(userCreated) {
 // res.cookie("token", token, { httpOnly:true})
 // res.cookie("loginData", userToken, {httpOnly: true})
 mailSend(`welcome to bookHouse ${name}`, `this is an email for ${name} , we welcome you to our website bookHouse 😄`, email)
-respObj.data = userToken
+respObj.data = userCreated
 respObj.message = "user Created SucessFully"
 respObj.Token = token
 return res.status(200).send(respObj);
@@ -105,7 +105,7 @@ if(!existigUser || !checkPassword) {
  }
 //SET TOKEN 
 if(existigUser && checkPassword) {
-    const userToken = _.pick(existigUser , ["name", "email", "phoneNumber"]);
+    const userToken = _.pick(existigUser , ["name", "email", "PhoneNumber", "id"]);
     var token = jwt.sign(JSON.parse(JSON.stringify(userToken)) ,  process.env.PASSPORT_SECRETE_KEY, {
         expiresIn: 86400 * 30, // Token expires after 30 days
       }
@@ -134,20 +134,27 @@ const contactUs = async (req,res)=>{
         message : ""
     }
     try {
-   
-    const {name , email ,message } = req.body;
+        const existingMessages = await User.findOne({ where: { email: req.body.email } });
 
-    //CHECK IF ANY FIELD IS EMPTY
-    if(!email || !name || !message) {
-        respObj.message = "Enter fields Properly !";
-        return res.status(400).send(respObj);
-    }
-
-    
-
-respObj.data = userToken
-respObj.message = "message send sucessFully"
-return res.status(200).send(respObj);
+        if (existingMessages) {
+          const updatedMessages = [...existingMessages.messages, req.body.message];
+          const {message } = req.body;
+          
+          //CHECK IF ANY FIELD IS EMPTY
+          if(!message) {
+              respObj.message = "Enter fields Properly !";
+              return res.status(400).send(respObj);
+            }
+            
+            const result = await User.update({
+                messages :updatedMessages
+            } , {where : {email : req.body.email}} )
+            
+            
+            respObj.data = result
+            respObj.message = "message send sucessFully"
+            return res.status(200).send(respObj);
+        }
 
 } 
     catch (error) {
@@ -167,44 +174,39 @@ const resetPassword = async (req,res)=>{
         message : ""
     }
     try {
-        const decoded = jwt.verify(req.params.token, process.env.PASSPORT_SECRET_KEY);
+        const decoded = jwt.verify(req.params.token, process.env.PASSPORT_SECRETE_KEY);
         console.log(decoded);
-          //CHECK IF ANY FIELD IS EMPTY
-    // if(!email) {
-    //     respObj.message = "Enter fields Properly !";
-    //     return res.status(400).send(respObj);
-    // }
+
 const user = await User.findOne(  { where : {email :decoded.email}});
 if(!user){
     respObj.message = "invalid token"
     respObj.data = null
     return  res.status(400).json(respObj);
 }
-let userToJtok = _.pick(user, ["email", "id",""]);
+// let userToJtok = _.pick(user, ["id"]);
 
-    let tokCandidate = Object.assign(userToJtok, {
-      expiresIn: 600,
-    });
+//     let tokCandidate = Object.assign(userToJtok, {
+//       expiresIn: 600,
+//     });
 
-    let token = jwt.sign(tokCandidate, process.env.PASSPORT_SECRET_KEY);
+//     let token = jwt.sign(tokCandidate, process.env.PASSPORT_SECRETE_KEY);
 
-mailSend("Reset your password", `click link to resetPassword : http://localhost:5000/resetPassword/${token}`, email)
+mailSend("password Reset Sucessfully", `now you can login with your new password : ${req.body.password}`, decoded.email)
 let password = await bcrypt.hashSync(
     req.body.password,
     bcrypt.genSaltSync(10),
     null
   );
 
-let result = await User.update({
-    password : password
-})
+let result = await User.update(
+    {password : password },  { where: { email: decoded.email } })
   
 
 
     
 
-respObj.data = userToken
-respObj.message = "message send sucessFully"
+respObj.data = user
+respObj.message = "password updated sucessFully"
 return res.status(200).send(respObj);
 
 } 
@@ -219,11 +221,53 @@ return res.status(200).send(respObj);
 
 
 
+/* -----FORGET PASSWORD */
+const forgetPassword = async (req,res)=>{
+    let respObj = {
+        data : null,
+        message : ""
+    }
+    try {
+  const {email} = req.body
+const user = await User.findOne(  { where : {email :email}});
+if(!user){
+    respObj.message = "email not registered"
+    respObj.data = null
+    return  res.status(400).json(respObj);
+}
+let userToJtok = _.pick(user, ["email"]);
+
+    let tokCandidate = Object.assign(userToJtok, {
+      expiresIn: 600,
+    });
+
+    let token = jwt.sign(tokCandidate, process.env.PASSPORT_SECRETE_KEY);
+
+mailSend("Reset your password", `click link to resetPassword : http://localhost:5173/resetPassword/${token}`, email)
+respObj.data = user
+respObj.message = "mail send  sucessFully"
+return res.status(200).send(respObj);
+
+} 
+    catch (error) {
+        console.log(error);
+        respObj.message = error
+        res.status(400).send(respObj)
+        
+    }
+
+}
+
+
+// Google OAuth routes
 
 
 
 module.exports = {
     RegisterUser,
     loginUser,
-    contactUs
+    contactUs,
+    forgetPassword,
+    resetPassword
 }
+

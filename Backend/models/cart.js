@@ -16,9 +16,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Cart.init({
-    user_id: DataTypes.INTEGER,
-    created_at: DataTypes.DATE,
-    updated_at: DataTypes.DATE
+    user_id:    { type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4, },
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Cart',

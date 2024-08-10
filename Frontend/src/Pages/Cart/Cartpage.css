@@ -91,3 +91,14 @@ hr{
   height: 2px;
   background-color: #111;
 }
+.payment{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.payment>h2{
+  font-size: 1rem;
+  font-weight: 100;
+  opacity: .8;
+ 
+}

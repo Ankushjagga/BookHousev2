@@ -73,7 +73,10 @@ const {totalCartItems , cartProductsList} = useSelector(productData)
   <NavLink to = "/contact" className= {(pathname === '/contact') ? 'active   lin' : 'nav-link lin'} ><li>Contact</li></NavLink>
 
   {token ?
+  <>
     <li className= 'nav-link lin' onClick={handleLogout}>Logout</li> 
+   <NavLink to ="/dashboard"> <li className= {(pathname === '/dashboard') ? 'active   lin' : 'nav-link lin'}>Dashboard</li> </NavLink>
+  </>
  : 
 <NavLink to = "/login" className= {(pathname === '/login') ? 'active   lin' : 'nav-link lin'}  ><li>Login in</li></NavLink>
  }

@@ -5,13 +5,13 @@ import Cookies from "js-cookie";
 
 import contact from "../../images/contact.png";
 import { ToastContainer, toast } from 'react-toastify';
-import { contactUs } from '../../redux/auth';
+import { authData, clearAllSliceStates, contactUs } from '../../redux/auth';
 
 import "./contact.css"
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 const Contact = () => {
   const token = Cookies.get('token');
-
+const {authSliceSuccessMessage ,authSliceErrorMessage , isAuthSliceSuccess , isAuthSliceError} = useSelector(authData)
   const [userData,setuserData] = useState({name:"",email:"",message:""});
   const Navigate = useNavigate()
   const dispatch = useDispatch()
@@ -41,11 +41,44 @@ useEffect(() => {
       progress: undefined,
       theme: "light",
       }); 
-    Navigate("/login")
+      Navigate("/login")
   }
  
 }, [])
+useEffect(() => {
+  if(isAuthSliceSuccess){
+    dispatch(clearAllSliceStates())
+    toast.success(authSliceSuccessMessage, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+  }
+  
+  }, [isAuthSliceSuccess])
+  
+  useEffect(() => {
+    if(isAuthSliceError){
+dispatch(clearAllSliceStates())
 
+      toast.error(authSliceErrorMessage, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        }); 
+    }
+  }, [isAuthSliceError])
+  
 
 const submitContact = (e)=>{
   e.preventDefault()

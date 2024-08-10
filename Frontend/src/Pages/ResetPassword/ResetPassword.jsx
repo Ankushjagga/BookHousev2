@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink , useNavigate , useParams} from 'react-router-dom'
 import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import Image from "../../images/Login.png"
+import Image from "../../images/Resetpassword.png"
 import { authData, clearAllSliceStates, resetPassword } from '../../redux/auth';
 import { useDispatch , useSelector } from 'react-redux';
 
@@ -122,7 +122,7 @@ const errorToast = ()=>{
   return (
     <div className="container" id="container">
     <div className="details">
-		{/* <img className='login-img' src={Image} alt='img' /> */}
+		<img className='login-img' src={Image} alt='img' />
 		</div>
 	<div className="login-in-container">
 <form method='POST' className='loginForm'>
@@ -130,7 +130,7 @@ const errorToast = ()=>{
     <span className = "passwordSpan">
 
 <input  className='inp'type={passwordInput} placeholder="Enter  New Password"name='password'  value={password}  onChange={handleInputs} required/> <i className={`fa-solid ${icon}`} onClick={handleEyeClick} ></i>
-{error.password}
+<p style={{color : "red"}}> {error.password}</p>
 </span>
   <button className='btn' id='bt'  placeholder='Submit'onClick={handleSubmit}  >Submit</button>
 </form>

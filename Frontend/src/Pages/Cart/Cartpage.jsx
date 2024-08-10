@@ -7,19 +7,31 @@ import CartAmountToggle from '../../components/CartAmountToggle/CartAmountToggle
 import { FaTrash } from 'react-icons/fa';
 import Stripebutton from '../../components/Stripebutton/Stripebutton';
 import { useDispatch, useSelector } from 'react-redux';
-import { productData , cartProducts , totalItemsInCart , deleteCartProducts } from '../../redux/Product';
+import { productData , cartProducts , totalItemsInCart , deleteCartProducts , payment, DeleteAllCartProducts} from '../../redux/Product';
+import { getSingleProduct, clearAllSliceData , addToCart, clearAllSliceStates , productReviews } from "../../redux/Product";
+
 import Cookies from 'js-cookie';
+import { loadStripe } from '@stripe/stripe-js';
+
+// import PayPalButton from '../../components/PayPal/PayPalButton';
+// import GooglePay from '../../components/PayPal/GooglePay';
 const Cartpage = () => {
 
     const Naavigate = useNavigate()
     
 const dispatch = useDispatch()
 const {cartProductsList  , totalCartItems} = useSelector(productData)
+const {isProductSliceFetching ,isProductSliceError, isProductSliceSuccess , productSliceErrorMessage , productSliceSuccessMessage , productReviewsList} = useSelector(productData)
+
 const [totalAmount, setTotalAmount] = useState(0); 
 console.log(cartProductsList);
 const token = Cookies.get("token");
 useEffect(() => {
 dispatch(cartProducts())
+return  ()=>{
+  dispatch(clearAllSliceData())
+  dispatch(clearAllSliceStates())
+}
 }, [])
 
 useEffect(() => {
@@ -27,6 +39,44 @@ useEffect(() => {
 Naavigate("/login")
  }
 }, [])
+useEffect(() => {
+  if(isProductSliceSuccess){
+    // dispatch(clearAllSliceData())
+    dispatch(clearAllSliceStates())
+   toast(productSliceSuccessMessage,{position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: true,
+    closeOnClick: false,
+    pauseOnHover: false,
+    draggable: true,
+    type:"success",
+    progress: undefined,
+    theme: "light",})
+
+  }
+  }, [isProductSliceSuccess])
+  useEffect(() => {
+    if(isProductSliceError){
+      dispatch(clearAllSliceStates())
+     toast(productSliceErrorMessage,{position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: true,
+      type:"success",
+      progress: undefined,
+      theme: "light",})
+  
+    }
+    }, [isProductSliceError])
+const deleteAllCart = ()=>{
+const check=   confirm("are you sure you want to clear cart")
+if(check){
+
+  dispatch(DeleteAllCartProducts())
+}
+}
 
 
    // Function to calculate total amount
@@ -44,6 +94,14 @@ if(remove){
   dispatch(deleteCartProducts({productId : id}));
 }
 }
+const makePayment = async () =>{
+const body ={
+  products : cartProductsList
+}
+console.log(body);
+dispatch(payment(body))
+}
+    const cartQuantity = cartProductsList.reduce((accum, ele)=> accum+=ele.quantity,0)
 
   return (
     <>
@@ -91,22 +149,28 @@ if(remove){
               )
           })}
           </table>
-      
+    
           </div>
-         {cartProductsList.length && token &&
+
+
+         {cartProductsList.length >0 && token &&
          <>
           <span className='total'>
             <p>SubTotal :  {totalAmount} ₹</p>
-          <p>Shipping Fees : {(cartProductsList.length)* 50}₹ </p>
+          <p>Shipping Fees : {(cartQuantity)* 50}₹ </p>
           <hr/>
-          <p>order total :  {totalAmount + (cartProductsList.length)*50} ₹</p>
+          <p>order total :  {totalAmount + (cartQuantity)*50} ₹</p>
           </span>
           <div className='btnss'>
   </div>
-    {/* <Stripebutton price={total_amount+ shipping_fees} onClick={()=>cartpage} /> */}
-{/* <button className='btn bts' onClick={clearcart}> */}
-{/* clear Cart */}
-{/* </button> */}
+<span className='payment'>
+
+<button className='btn bts' onClick={makePayment}>Pay {totalAmount + (cartQuantity)*50} ₹</button>
+
+ <h2>*********** use card number :  4000003560000008 for testing************* </h2>
+<button className='btn bts' onClick={deleteAllCart} >  Clear Cart <FaTrash/> </button>
+</span>
+
             </>
 
 

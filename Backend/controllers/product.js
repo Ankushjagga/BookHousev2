@@ -5,8 +5,10 @@ const Categories = require("../models").categories
 const Cart = require("../models").Cart
 const User = require("../models").User
 const CartItem = require("../models").CartItem
+const ProductReview = require("../models").ProductReview
+const stripe = require("stripe")("sk_test_51JEoa7SEIJGjBh5JHeSE891DMo63CRx5QqGgqA8A6i28WMfkJdI6alLKLutY8lmQlvmRELBpxWWsCy3GsuSZqAHw00OcLjttqd")
+const express = require("express")
 const { v4: uuidv4 } = require("uuid");
-
 
 /* -----GET ALL PRODUCT  */
 const getAllProduct = async (req,res)=>{
@@ -32,6 +34,8 @@ const searchConditions = searchValues.map(value => ({
     const result = await Product.findAll({ where :{
         [Op.or] :  searchConditions
     }});
+    const count = await Product.count()
+    respObj.count = count;
 respObj.data = result ;
 respObj.message = "success"
     res.status(200).send(respObj);
@@ -113,7 +117,9 @@ const getAllCategories = async (req,res)=>{
  
 
     const result = await Categories.findAll({});
+    const count =  await Categories.count({}) 
 respObj.data = result ;
+respObj.count = count
 respObj.message = "success"
     res.status(200).send(respObj);
 } 
@@ -222,7 +228,7 @@ if(alreadyExisitCartItem){
         respObj.addedItems = req.body.amount
 
       respObj.data = alreadyExisitCartItem;
-      respObj.message = "success";
+      respObj.message = "Item added Sucessfully";
       return res.status(200).send(respObj);
 }
   if(cart && product){
@@ -240,7 +246,8 @@ if(alreadyExisitCartItem){
     })
         respObj.addedItems = req.body.amount
     respObj.data = cartItem ;
-    respObj.message = "success"
+    respObj.message = "Item added Sucessfully";
+
     return res.status(200).send(respObj);
   }
   
@@ -326,7 +333,7 @@ const cartProducts = async (req,res)=>{
         console.log("result----", result);
         // const totalQuantity = result.length > 0 ? CartItem.dataValues.total_quantity : 0;
     respObj.data = result ;
-    respObj.message = "success"
+    // respObj.message = "success"
     return res.status(200).send(respObj);
   }
 
@@ -366,6 +373,164 @@ const DeleteCartProducts = async (req,res)=>{
         // const totalQuantity = result.length > 0 ? CartItem.dataValues.total_quantity : 0;
         respObj.deltetedItems = itemsToDelete[0]?.quantity
     respObj.data = req.params.productId ;
+    respObj.message = "Item Deleted Sucessfully"
+    return res.status(200).send(respObj);
+  }
+
+
+
+
+    catch (error) {
+        console.log(error);
+        respObj.message = error
+        res.status(400).send(respObj)
+        
+    }
+
+}
+/* -----  DELETE  All CART  Products  */
+const DeleteAllCartProducts = async (req,res)=>{
+    let respObj = {
+        data : null,
+        message : ""
+    }
+    try {
+
+        const cart = await Cart.findOne({where :{ user_id : req.params.userId} })
+  const   result = await CartItem.destroy({
+       where : { cart_id : cart.id }
+             
+        })
+        // const totalQuantity = result.length > 0 ? CartItem.dataValues.total_quantity : 0;
+    respObj.data = result ;
+    respObj.message = "Cart clear sucesfully"
+    return res.status(200).send(respObj);
+  }
+
+
+
+
+    catch (error) {
+        console.log(error);
+        respObj.message = error
+        res.status(400).send(respObj)
+        
+    }
+
+}
+
+/* ----- PRODUCTS REVIEWS   */
+const productReviews = async (req,res)=>{
+    let respObj = {
+        data : null,
+        message : ""
+    }
+    try {
+        const result = await ProductReview.create({
+         user_id : req.params.userId,
+         product_id : req.params.productId,
+         review_text : req.body.review,
+         rating : req.body.rating
+        })
+        const result2 = await ProductReview.findOne({
+            where : {
+            
+                user_id : req.params.userId,
+
+            }   ,
+            include : [
+            {
+            
+                model : Product
+            },
+             {
+                model : User
+            }
+        ]
+        })
+            
+        console.log("result----", result);
+    respObj.data = result2 ;
+    respObj.message = "Review added sucessfully"
+    return res.status(200).send(respObj);
+  }
+
+
+
+
+    catch (error) {
+        console.log(error);
+        respObj.message = error
+        res.status(400).send(respObj)
+        
+    }
+
+}
+
+
+/* ----- UPDATE PRODUCTS REVIEWS   */
+const updateProductReviews = async (req,res)=>{
+    let respObj = {
+        data : null,
+        message : ""
+    }
+    try {
+        const result = await ProductReview.update({
+            review_text : req.body.review,
+            rating : req.body.rating ,
+            where :{
+
+                product_id : req.params.productId,
+            }
+     
+        })
+       
+            
+        console.log("result----", result);
+    respObj.data = result ;
+    respObj.message = "Product Review updated sucessfully"
+    return res.status(200).send(respObj);
+  }
+
+
+
+
+    catch (error) {
+        console.log(error);
+        respObj.message = error
+        res.status(400).send(respObj)
+        
+    }
+
+}
+
+
+/* ----- GET SINGLE PRODUCTS REVIEWS   */
+const getSingleproductReview = async (req,res)=>{
+    let respObj = {
+        data : null,
+        message : ""
+    }
+    try {
+        const result = await ProductReview.findAll({
+where : {
+
+    product_id : req.params.productId,
+}   ,
+include : [
+{
+
+    model : Product
+},
+ {
+    model : User
+}
+]
+
+
+        })
+        console.log("result----", result);
+    respObj.data = result ;
     respObj.message = "success"
     return res.status(200).send(respObj);
   }
@@ -384,6 +549,87 @@ const DeleteCartProducts = async (req,res)=>{
 
 
 
+const payment =  async (req, res) => {
+    const { data } = req.body;
+    const cartMeta = await data.products.map((ele)=>{ 
+       return {
+
+           productId : ele.product_id,
+        //    quantity : ele.quantity,
+        //    price : ele.Product.price,
+        //    name : ele.Product.name
+        } 
+
+    })
+    const customer = await stripe.customers.create({
+        metadata: { 
+          userId: req.body.userId,
+        //   cart: JSON.stringify(cartMeta),
+        },
+      });
+    // const cartQuantity = products.reduce((accum, ele)=> accum+=ele.quantity,0)
+//   console.log(cartQuantity);
+    try {
+        const lineItems = await data.products.map((ele)=>{
+            console.log(`http://localhost:5173/images/${ele.Product.image}`)
+
+            return {
+                price_data: {
+                    currency: "inr",
+                    product_data: {
+                        name : ele.Product.name,
+                        images : [`http://localhost:5173/images/${ele.Product.image}`],
+                        metadata: {
+                            id: ele.id,
+                        },
+                    },
+                    unit_amount:  (ele.Product.price*100 + 50*100 ),
+                },
+                quantity : ele.quantity,
+            
+        }
+      })
+      const session = await stripe.checkout.sessions.create({
+        line_items : lineItems,
+        // line_items: [
+        //     {
+        //       price_data: {
+        //         currency: 'usd',
+        //         product_data: {
+        //           name: 'T-shirt',
+        //         },
+        //         unit_amount: 2000, // Amount in cents
+        //       },
+        //       quantity: 1,
+        //     },
+        //     {
+        //       price_data: {
+        //         currency: 'usd',
+        //         product_data: {
+        //           name: 'Jeans',
+        //         },
+        //         unit_amount: 4000, // Amount in cents
+        //       },
+        //       quantity: 1,
+        //     },
+        // ],
+        mode : "payment",
+        customer: customer.id,  
+
+        success_url :"http://localhost:5173/checkoutSuccess",
+        cancel_url :"http://localhost:5173/checkoutCancel"
+      })
+  
+      res.status(200).send({
+        url: session.url,
+      });
+    } catch (error) {
+        console.log(error);
+      res.status(500).send({
+        error: error.message,
+      });
+    }
+}
 
 
 module.exports = {
@@ -396,5 +642,10 @@ module.exports = {
     addToCart,
     totalItemsInCart,
     cartProducts,
-    DeleteCartProducts
+    DeleteCartProducts,
+    productReviews,
+    payment,
+    getSingleproductReview,
+    DeleteAllCartProducts,
+    updateProductReviews
 }

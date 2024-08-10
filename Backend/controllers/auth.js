@@ -7,6 +7,10 @@ const jwt = require("jsonwebtoken")
 const mailSend = require("../mails/mail")
 const { v4: uuidv4 } = require("uuid");
 const passport = require('passport');
+const ProductReview = require("../models").ProductReview
+const Order = require("../models").Order
+const OrderDetail = require("../models").OrderDetail
+const Product = require("../models").Product
 
 
 /* -----REGISTER USER  */
@@ -54,7 +58,7 @@ const userCreated = await User.create({
 
 //SET TOKEN 
 if(userCreated) {
-    const userToken = _.pick(userCreated , ["name", "email", "phoneNumber"]);
+    const userToken = _.pick(userCreated , ["name", "email", "phoneNumber", "role"]);
     var token = jwt.sign(JSON.parse(JSON.stringify(userToken)) ,  process.env.PASSPORT_SECRETE_KEY, {
         expiresIn: 86400 * 30, // Token expires after 30 days
       }
@@ -64,7 +68,7 @@ if(userCreated) {
 // res.cookie("loginData", userToken, {httpOnly: true})
 mailSend(`welcome to bookHouse ${name}`, `this is an email for ${name} , we welcome you to our website bookHouse 😄`, email)
 respObj.data = userCreated
-respObj.message = "user Created SucessFully"
+respObj.message = "Registerd SucessFully"
 respObj.Token = token
 return res.status(200).send(respObj);
 
@@ -105,7 +109,7 @@ if(!existigUser || !checkPassword) {
  }
 //SET TOKEN 
 if(existigUser && checkPassword) {
-    const userToken = _.pick(existigUser , ["name", "email", "PhoneNumber", "id"]);
+    const userToken = _.pick(existigUser , ["name", "email", "PhoneNumber", "id", "role"]);
     var token = jwt.sign(JSON.parse(JSON.stringify(userToken)) ,  process.env.PASSPORT_SECRETE_KEY, {
         expiresIn: 86400 * 30, // Token expires after 30 days
       }
@@ -135,26 +139,36 @@ const contactUs = async (req,res)=>{
     }
     try {
         const existingMessages = await User.findOne({ where: { email: req.body.email } });
-
-        if (existingMessages) {
-          const updatedMessages = [...existingMessages.messages, req.body.message];
-          const {message } = req.body;
+        const {message } = req.body;
+            //CHECK IF ANY FIELD IS EMPTY
+            if(!message) {
+                respObj.message = "Enter fields Properly !";
+                return res.status(400).send(respObj);
+              }
+let updatedMessages;
+        if (existingMessages.messages) {
+           updatedMessages = existingMessages.messages + "," + req.body.message
+           const result = await User.update({
+            messages :updatedMessages
+        } , {where : {email : req.body.email}} )
+        
+        
+        respObj.data = result
+        respObj.message = "message send sucessFully"
+        return res.status(200).send(respObj);
+        }
           
-          //CHECK IF ANY FIELD IS EMPTY
-          if(!message) {
-              respObj.message = "Enter fields Properly !";
-              return res.status(400).send(respObj);
-            }
+      
             
             const result = await User.update({
-                messages :updatedMessages
+                messages :message
             } , {where : {email : req.body.email}} )
             
             
             respObj.data = result
             respObj.message = "message send sucessFully"
             return res.status(200).send(respObj);
-        }
+        
 
 } 
     catch (error) {
@@ -258,8 +272,58 @@ return res.status(200).send(respObj);
 
 }
 
+//GET USER DETAIL
+
+const getUserDetail = async (req,res)=>{
+    let respObj = {
+        data : null,
+        message : ""
+    }
+    try {
+       const result = await User.findOne({
+        where : {
+            id : req.params.userId
+        },
+        include :[ {
+         model :  ProductReview,
+         include : {
+            model : Product
+         }
+        },
+        {model :  Order ,
+            include :  {
+                  model : OrderDetail,
+                  include : {
+                    model : Product
+                  }
+            }
+        }
+    ]
+       })
+        
+        
+        respObj.data = result
+        respObj.message = "message send sucessFully"
+        return res.status(200).send(respObj);
+        }
+          
+    catch (error) {
+        console.log(error);
+        respObj.message = error
+        res.status(400).send(respObj)
+        
+    }
+
+}
+
+
+
+
+
 
 // Google OAuth routes
+
+
 
 
 
@@ -268,6 +332,7 @@ module.exports = {
     loginUser,
     contactUs,
     forgetPassword,
-    resetPassword
+    resetPassword,
+    getUserDetail
 }
 

@@ -3,13 +3,14 @@ import React, { useState, useEffect } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import RingLoader from "react-spinners/RingLoader";
 import CartAmountToggle from "../../components/CartAmountToggle/CartAmountToggle";
-import { getSingleProduct, productData, clearAllSliceData , addToCart, clearAllSliceStates } from "../../redux/Product";
+import { getSingleProduct, productData, clearAllSliceData , addToCart, clearAllSliceStates , productReviews , getSingleproductReview } from "../../redux/Product";
 // import { toast } from 'react-toastify';
 import "./shopitem.css";
 import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
+import ProductReviews from "../../components/ProductReviews/ProductReviews";
 
 const override = {
   display: "block",
@@ -25,9 +26,15 @@ const Shopitem = () => {
   // const { addtoCart } = useCartcontext();
   const [amount, setAmount] = useState(1);
   const token = Cookies.get('token');
-
+const [rating , setRating] = useState("")
+const [review , setReview] = useState("")
+const [singleProductReview , setSingleProductReview] = useState([])
+const [error, setError]= useState({
+  review: "",
+  rating: ""
+})
   let { id } = useParams();
-const {isProductSliceFetching , isProductSliceSuccess , productSliceErrorMessage , productSliceSuccessMessage} = useSelector(productData)
+const {isProductSliceFetching , isProductSliceSuccess , productSliceErrorMessage , isProductSliceError,productSliceSuccessMessage , productReviewsList} = useSelector(productData)
   const setDecrease = () => {
     amount > 1 ? setAmount(amount - 1) : setAmount(1);
   };
@@ -39,31 +46,48 @@ const {isProductSliceFetching , isProductSliceSuccess , productSliceErrorMessage
   
   useEffect(() => {
  dispatch(getSingleProduct(id))
-
+return  ()=>{
+  dispatch(clearAllSliceData())
+  dispatch(clearAllSliceStates())
+}
   }, [])
 
   useEffect(() => {
    setuser(singleProduct)
   }, [singleProduct])
   
-  
-  // useEffect(() => {
-  // if(isProductSliceSuccess){
-  //   dispatch(clearAllSliceData())
-  //   dispatch(clearAllSliceStates())
-  //  toast(productSliceSuccessMessage,{position: "top-right",
-  //   autoClose: 5000,
-  //   hideProgressBar: true,
-  //   closeOnClick: false,
-  //   pauseOnHover: false,
-  //   draggable: true,
-  //   type:"success",
-  //   progress: undefined,
-  //   theme: "dark",})
+  console.log(rating , review);
+  useEffect(() => {
+  if(isProductSliceSuccess){
+    // dispatch(clearAllSliceData())
+    dispatch(clearAllSliceStates())
+   toast(productSliceSuccessMessage,{position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: true,
+    closeOnClick: false,
+    pauseOnHover: false,
+    draggable: true,
+    type:"success",
+    progress: undefined,
+    theme: "light",})
 
-  // }
-  // }, [isProductSliceSuccess])
+  }
+  }, [isProductSliceSuccess])
+  useEffect(() => {
+    if(isProductSliceError){
+      dispatch(clearAllSliceStates())
+     toast(productSliceErrorMessage,{position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: true,
+      type:"success",
+      progress: undefined,
+      theme: "light",})
   
+    }
+    }, [isProductSliceError])
 
 
   // const handleclick =  ()=>{
@@ -78,6 +102,14 @@ const {isProductSliceFetching , isProductSliceSuccess , productSliceErrorMessage
   //   theme: "dark",})
 
   // }
+  useEffect(() => {
+    dispatch(getSingleproductReview({productId : id}))
+  
+  }, [])
+  useEffect(() => {
+    setSingleProductReview(productReviewsList)
+  }, [productReviewsList])
+  
 
   const handleAddToCart = ()=>{
     console.log("clickedd")
@@ -86,13 +118,36 @@ const {isProductSliceFetching , isProductSliceSuccess , productSliceErrorMessage
      amount
     }))
   }
+  const hanldeSubmit = (e)=>{
+    e.preventDefault()
+    const errorObj = {
+      rating: "",
+      review : ""
+    }
+    if(!rating){
+      errorObj.rating = "Please Enter Rating"
+    }
+    if(!review){
+      errorObj.review = "Please Enter Review"
+      }
+      for(let key in errorObj){
+        if(errorObj[key]){
+          setError(errorObj)
+          return ;
+        }
+      }
+
+dispatch(productReviews({productId: id , rating : rating , review : review}))
+setReview("")
+setRating("");
+  }
 
 
   return (
     <>
       <span className="link-rec">
-        <ol style={{ display: "flex", margin: "1rem", alignItems: "center" }}>
-          <li>
+        <dl style={{ display: "flex", margin: "1rem", alignItems: "center" }}>
+          <dd>
             <NavLink
               to="/"
               style={{ textDecoration: "underline", marginRight: ".3rem" }}
@@ -101,9 +156,9 @@ const {isProductSliceFetching , isProductSliceSuccess , productSliceErrorMessage
               Home{" "}
             </NavLink>{" "}
             /{" "}
-          </li>
-          <li style={{ opacity: 0.6, marginLeft: ".3rem" }}>{user?.name}</li>
-        </ol>
+          </dd>
+          <dd style={{ opacity: 0.6, marginLeft: ".3rem" }}>{user?.name}</dd>
+        </dl>
       </span>
       {!loading ? (
         user ? (
@@ -114,6 +169,15 @@ const {isProductSliceFetching , isProductSliceSuccess , productSliceErrorMessage
                   src={`/images/${user?.image}`}
                   alt={user?.name}
                   title={user?.name}
+                />
+                <ProductReviews productReviewsList={singleProductReview} 
+                token={token} hanldeSubmit={hanldeSubmit}
+                rating = {rating}
+                setRating = {setRating}
+                review = {review}
+                setReview={setReview}
+                error={error}
+                setError={setError}
                 />
               </div>
               <div className="con-right">
@@ -165,11 +229,11 @@ const {isProductSliceFetching , isProductSliceSuccess , productSliceErrorMessage
                     Add To Cart<i className="fa-solid fa-cart-shopping"></i>
                   </button>
                   : 
-                  <>
+                  <span className="disable">
                   <button  className=" disablebtns" disabled
                   title="Add To Cart">Add to cart</button> 
-                  <h5>Login to add item to cart</h5>
-                  </> 
+                  <h5>Login to add item to cart 😟</h5>
+                  </span> 
                   }
                   {/* </NavLink> */}
                 </span>

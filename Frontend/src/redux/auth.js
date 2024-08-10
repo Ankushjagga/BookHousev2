@@ -1,11 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
-const data =
-  Cookies.get("loginData") !== "undefined" && Cookies.get("loginData")
-    ? JSON.parse(Cookies.get("loginData"))
-    : null;
+let userId;
+let email;
+ 
     const setTokenValues = () => {
-        officialEmail = data.user.officialEmail;
+const data =
+Cookies.get("loginData") !== "undefined" && Cookies.get("loginData")
+      ? JSON.parse(Cookies.get("loginData"))
+      : null;
+      email = data.email;
+      userId = data.id
         
       };
       // get login data for change Password functionality
@@ -37,6 +41,7 @@ const data =
               Cookies.set("token", data?.Token);
               Cookies.set("userEmail", data?.data.email);
               Cookies.set("userEmail", data?.data.email);
+              Cookies.set("role", data?.data.role);
               console.log(data, "data");
               return data;
             } else { 
@@ -71,6 +76,7 @@ const data =
               Cookies.set("loginData", JSON.stringify(data?.data));
               Cookies.set("token", data?.Token);
               Cookies.set("userEmail", data?.data.email);
+              Cookies.set("role", data?.data.role);
               console.log(data, "data");
               return data;
             } else {
@@ -171,7 +177,37 @@ const data =
       }
     }
   );
+  /*  GET User Detail       */
+  export const getUserDetail = createAsyncThunk(
+    "auth/getUserDetail",
+    
+    async (obj, thunkAPI) => {
+      try {
+        setTokenValues()
 
+        const response = await fetch(`http://localhost:5000/v2/auth/getUserDetail/userId/${userId}`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        console.log(response.status, "response", data);                                                                                                                          
+        if (response?.status === 200) {
+         
+  
+          return data;
+        } else {
+          return thunkAPI.rejectWithValue(data);
+        }
+      } catch (e) {
+        console.log("Error", e.response.data);
+        thunkAPI.rejectWithValue(e.response.data);
+      }
+    }
+  );
+  /* END*/
 
 
 
@@ -184,7 +220,8 @@ const data =
         authSliceSuccessMessage:"",
         isAuthSliceFetchingSmall:false,
         loggedInUserName: "",
-        loggedInUserId: ""
+        loggedInUserId: "",
+        userDetail : null
       };
 
 
@@ -302,7 +339,7 @@ console.log(payload)
 builder.addCase(forgetPassword.fulfilled, (state, { payload }) => {
   state.isAuthSliceFetching = false;
   console.log(payload , "asdadadsdasdas");
-  state.isAuthSliceSuccess = true;
+  // state.isAuthSliceSuccess = true;
   //   state.token = payload.token.access.token;
   state.authSliceSuccessMessage = payload?.message || "message send sucessfully"
 
@@ -327,7 +364,7 @@ console.log(payload)
 
 
 
-//FORGET PASSWORD REDUCER
+//reset PASSWORD REDUCER
 builder.addCase(resetPassword.fulfilled, (state, { payload }) => {
   state.isAuthSliceFetching = false;
   console.log(payload , "asdadadsdasdas");
@@ -344,6 +381,35 @@ builder.addCase(resetPassword.pending, (state, { payload }) => {
   return state;
 });
 builder.addCase(resetPassword.rejected, (state, { payload }) => {
+  state.isAuthSliceFetching = false;
+  state.isAuthSliceSuccess = false;
+  state.isAuthSliceError = true
+  state.authSliceErrorMessage =   "something went wrong"
+
+console.log(payload)
+
+  return state;
+});
+
+
+//user deatil REDUCER
+builder.addCase(getUserDetail.fulfilled, (state, { payload }) => {
+  state.isAuthSliceFetching = false;
+  console.log(payload , "asdadadsdasdas");
+  // state.isAuthSliceSuccess = true;
+  state.userDetail = payload?.data
+  //   state.token = payload.token.access.token;
+  state.authSliceSuccessMessage = payload?.message
+
+  return state;
+});
+builder.addCase(getUserDetail.pending, (state, { payload }) => {
+  state.isAuthSliceFetching = true;
+  state.isAuthSliceSuccess = false;
+  
+  return state;
+});
+builder.addCase(getUserDetail.rejected, (state, { payload }) => {
   state.isAuthSliceFetching = false;
   state.isAuthSliceSuccess = false;
   state.isAuthSliceError = true

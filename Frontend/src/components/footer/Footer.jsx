@@ -1,7 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+
 import "./footer.css"
 const Footer = () => {
+    const [name,setname] = useState("")
+    const getNoify= ()=>{
+        if(name === ""){
+            toast.error("Please enter your email !", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });  
+        }else{
+
+            toast.success("Subscribe for newsLetter Sucessfully !", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+    }
   return (
    <>
    <div className="footer">
@@ -30,9 +59,9 @@ const Footer = () => {
       <div className="box">
           <h3>newsletter</h3>
           <p>subscribe for latest updates</p>
-          <form action="">
-              <input type="email" name="" className="email" placeholder="enter your email"/>
-              <button type="submit" className="btn"> Subscribe <i className="fa-solid fa-bell"></i></button>
+          <form>
+              <input type="email" name="name" value={name} onChange={(e)=> setname(e.target.value)} className="email" placeholder="enter your email" required/>
+              <button type="submit" className="btn" onClick={getNoify}> Subscribe <i className="fa-solid fa-bell"></i></button>
               
           </form>
       </div>

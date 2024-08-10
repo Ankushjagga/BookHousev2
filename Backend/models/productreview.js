@@ -16,13 +16,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   ProductReview.init({
-    product_id: DataTypes.INTEGER,
-    user_id: DataTypes.INTEGER,
-    rating: DataTypes.INTEGER,
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
+    },
+    product_id: DataTypes.UUID,
+    user_id: DataTypes.UUID,
+    rating: DataTypes.TEXT,
     review_text: DataTypes.TEXT,
-    review_date: DataTypes.DATE,
-    created_at: DataTypes.DATE,
-    updated_at: DataTypes.DATE
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'ProductReview',

@@ -1,0 +1,63 @@
+.reviews {
+    margin: 1rem .2rem;
+    font-size: 1.5rem;
+}
+.rev-head{
+    display: flex;
+    align-items: center;
+}
+.no-reviews{
+    margin: 1rem;
+    padding-bottom: .5rem;
+    font-size:1rem ;
+    border-bottom:  1px solid;
+}
+.write-review{
+    margin: 1rem .2rem;
+}
+.rating-text {
+    margin: 1rem 0; 
+    width: 100%;
+    height: 20vh;
+    padding: .5rem;
+}
+.errors{
+    color: red;
+}
+.review-data {
+    /* display: flex; */
+    margin: 1rem .5rem;
+}
+ol>li{
+    list-style: disc !important;
+    border-bottom: 1px solid;
+    padding-bottom:  .7rem;
+}
+.reviewer-name{
+    /* background-color:#568eb1 ; */
+    background-color:#4267B2 ;
+
+    display: inline;
+    color: white;
+    padding: .5rem;
+    border-radius: .5rem;
+
+}
+.reviewer-rating{
+    margin: 1.5rem .6rem;
+    font-size: 1rem;
+}
+.review-rating{
+    /* background-color:#568eb1  ; */
+    background-color:#4267B2 ;
+
+    display: inline;
+    color: white;
+    padding: .5rem;
+    border-radius: .5rem;
+    
+
+}
+.review-box{
+    border: 1px dotted;
+}

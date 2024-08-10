@@ -3,8 +3,11 @@ import Catrgory from '../../components/cards/catrgory'
 import "./home.css"
 import { NavLink } from 'react-router-dom'
 import Card4 from '../../components/cards/Card4'
-import  { getAllProducts, productData , getAllCategories , totalItemsInCart } from '../../redux/Product'
+import  { getAllProducts, productData , getAllCategories , totalItemsInCart, clearAllSliceData, clearAllSliceStates } from '../../redux/Product'
 import { useDispatch, useSelector } from 'react-redux'
+import { ToastContainer, toast } from 'react-toastify';
+
+import { IoReturnDownBack } from 'react-icons/io5'
 const Home = () => {
   const { isProductSliceFetching , isProductSliceSuccess , productSliceErrorMessage  , productList , categoriesList}  = useSelector(productData)
   const dispatch  = useDispatch()
@@ -12,10 +15,34 @@ const Home = () => {
      dispatch(getAllProducts({ searchValue:""}))
      dispatch(getAllCategories())
      dispatch(totalItemsInCart())
-     }, [])
-
-    
+  
+     return () => {
+          dispatch(clearAllSliceData())
+    dispatch(clearAllSliceStates())
+     }
      
+     }, [])
+  
+
+  //   useEffect(() => {
+  //  if(isProductSliceSuccess){
+  //   dispatch(clearAllSliceData())
+  //   dispatch(clearAllSliceStates())
+  //  }
+  //   }, [isProductSliceSuccess])
+    
+     const notify = ()=>{
+      toast.success("Notification On 😄", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+     }
    
 
   return (
@@ -55,7 +82,7 @@ const Home = () => {
         <div className='subscribe'>
             <h4>Get All The Latest Notification 🔔</h4>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus incidunt repudia<br/> Illo provident quisquam quod sapiente dolor maxime temporibus fugiat corporis hic<br/> quasi voluptate tempora, quo et sed! Est voluptas ex praesentium.</p>
-            <button className='btn'> Notify <i className="fa-solid fa-bell"></i></button>
+            <button className='btn' onClick={notify}> Notify <i className="fa-solid fa-bell"></i></button>
         </div>
     </>
   )

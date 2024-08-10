@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     updatedAt: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false 
     },
     role :{
       type: DataTypes.STRING,
@@ -61,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue : "user"
     },
     messages :{
-      type: DataTypes.JSON,
+      type: DataTypes.TEXT,
     }
   }, {
     sequelize,

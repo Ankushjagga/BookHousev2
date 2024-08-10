@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // import Image from "../../images/Login.png"
 import { authData, forgetPassword , clearAllSliceStates } from '../../redux/auth';
 import { useDispatch , useSelector } from 'react-redux';
+import Image from "../../images/Forgotpassword.png"
 
 const ForgetPassword = () => {
     
@@ -105,13 +106,13 @@ useEffect(() => {
   return (
     <div className="container" id="container">
     <div className="details">
-		{/* <img className='login-img' src={Image} alt='img' /> */}
+		<img className='login-img' src={Image} alt='img' />
 		</div>
 	<div className="login-in-container">
 <form method='POST' className='loginForm'>
     <h1>Forget Password ? </h1>
   <input className='inp' type="email" placeholder="Enter Email"name='email' value={email}  onChange={handleInputs}   required/>
-  {error.email}
+   <p style={{color : "red"}}> {error.email}</p>
   <button className='btn' id='bt'  placeholder='Submit'onClick={handleSubmit}  >Submit</button>
 </form>
 

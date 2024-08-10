@@ -1,6 +1,8 @@
 const express = require("express")
 const Product = require("./routes/product")
 const auth = require("./routes/UserRoutes")
+const admin = require("./routes/adminRoutes")
+const webhook = require("./routes/webhook")
 const cors = require("cors")
 const app =  express();
 const bodyParser = require('body-parser');
@@ -14,6 +16,8 @@ app.use(cors({
 }));
 // Use cookie-parser middleware
 app.use(cookieParser());
+app.use("/v2/stripe", express.raw({ type: 'application/json' }), webhook)
+
 app.use(bodyParser.json()); // Parse JSON-encoded bodies 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
@@ -21,15 +25,16 @@ app.use(session({
     resave: false,
     saveUninitialized: true
   }));
-  
   // Initialize Passport and session
   app.use(passport.initialize());
   app.use(passport.session());
-  
 //Product Routes
 app.use("/v2/product", Product)
 //AUTH ROUTES
 app.use("/v2/auth",auth)
+//admin routes
+app.use("/v2/admin",admin)
+//webhooks
 
 
 app.listen(5000,()=>{

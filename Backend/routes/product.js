@@ -1,6 +1,7 @@
 const express = require("express")
 const router =  express.Router();
 const productRouter = require("../controllers/product");
+const bodyParser = require('body-parser');
 
 router.get("/allProduct", productRouter.getAllProduct);
 router.get("/getRandomProduct", productRouter.getRandomProduct);
@@ -12,6 +13,12 @@ router.post("/addToCart/user/:userId/products/:productId", productRouter.addToCa
 router.get("/totalItemsInCart/cart/:cartId", productRouter.totalItemsInCart);
 router.get("/cartProducts/user/:userId", productRouter.cartProducts);
 router.delete("/DeleteCartProducts/product/:productId/user/:userId", productRouter.DeleteCartProducts);
+router.delete("/DeleteAllCartProducts/user/:userId", productRouter.DeleteAllCartProducts);
+router.post("/productReviews/product/:productId/user/:userId", productRouter.productReviews);
+router.get("/getSingleproductReviews/product/:productId", productRouter.getSingleproductReview);
+router.put("/updateProductReviews/product/:productId", productRouter.updateProductReviews);
+router.post("/payment", productRouter.payment);
 
 
-module.exports = router 
+
+module.exports = router  

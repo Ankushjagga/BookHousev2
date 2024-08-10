@@ -22,6 +22,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import ForgetPassword from './Pages/ForgetPassword/ForgetPassword';
 import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import Search from './Pages/search/Search';
+import Dashboard from './Pages/Dashboard/Dashboard';
+import CheckoutSuccess from './Pages/Checkout/CheckoutSuccess';
+import CheckoutError from './Pages/Checkout/CheckoutError';
+import AdminLogin from './Pages/Admin/AdminLogin';
+import AdminDashboard from './Pages/Admin/AdminDashboard';
 const token = Cookies.get("token");
 
 export const router = createBrowserRouter(
@@ -44,6 +49,11 @@ export const router = createBrowserRouter(
 <Route exact path="/logout" element={<Logout/>}></Route>
 <Route exact path="/forgetPassword" element={<ForgetPassword/>}></Route>
 <Route exact path="/search" element={<Search/>}/>
+<Route exact path ="/dashboard" element = {<Dashboard/>}/>
+<Route exact path ="/checkoutSuccess" element = {<CheckoutSuccess/>}/>
+<Route exact path ="/checkoutCancel" element = {<CheckoutError/>}/>
+<Route exact path ="/adminLogin" element = {<AdminLogin/>}/>
+<Route exact path ="/adminDashboard" element = {<AdminDashboard/>}/>
 
     </Route>
   )

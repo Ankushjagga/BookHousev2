@@ -25,7 +25,15 @@ module.exports = (sequelize, DataTypes) => {
     features : {
       type :  DataTypes.TEXT ,
       defaultValue : []
-    }
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false 
+    },
   }, {
     sequelize,
     modelName: 'Product',

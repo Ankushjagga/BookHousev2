@@ -110,13 +110,23 @@ const addProduct = async (req,res)=>{
         message : ""
     }
     try {
-      
-const image = req.file;
+      const {name , description , price , category , features} = req.body;
+const image = req?.file?.path;
 console.log(image);
-      const imageCloudinary =   cloudinary.v2.uploader.upload(image, {upload_preset: "my_preset"}, (error, result)=>{
-            console.log(result, error);
-          });
-respObj.data = imageCloudinary;
+     if(!image){
+        respObj.message = "Please upload an image"
+        res.status(400).send(respObj)
+     }
+const product = await Product.create({
+    name : name,
+    description : description ,
+    price : price ,
+    category : category ,
+    features : features ,
+    image : image
+    })
+respObj.data = product;
+respObj.message = "product created sucessfully";
 res.status(200).send(respObj);
 // const result = await Product    
     } catch (error) {
@@ -131,8 +141,19 @@ const addCategory = async (req,res)=>{
             data : null,
             message : ""
         }
-
-const result = await Categories    
+        const image = req?.file?.path;
+        
+        if(!image){
+            respObj.message = "Please upload an image"
+            res.status(400).send(respObj)
+         }
+const result = await Categories.create({
+    name : req.body.name ,
+    image : image
+})  
+respObj.message = "category created sucessfully";
+respObj.data = result;
+res.status(200).send(respObj);
     } catch (error) {
         console.log(error);
         respObj.message = error

@@ -35,7 +35,9 @@ app.use("/v2/auth",auth)
 //admin routes
 app.use("/v2/admin",admin)
 //webhooks
-
+app.get("/",(req,res)=>{
+  res.status(200).send("<h1>CONNECTION SUCESSFULLLL from backend </h1>")
+})
 
 app.listen(5000,()=>{
     console.log("Server runig at 5000");

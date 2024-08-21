@@ -14,7 +14,7 @@ return (
 
 <NavLink to ={`/categories/${cate.name}`} className="category-link" key={cate.id}>
   <div className="box" id="box-cate" >
-        <img src={`/images/${cate.image}`} alt={cate.name}/>
+        <img src={`${cate.image}`} alt={cate.name}/>
         <h4>{cate.name}</h4>
        
       </div>

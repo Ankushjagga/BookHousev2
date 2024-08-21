@@ -502,6 +502,39 @@ export const updateProductReview = createAsyncThunk(
 );
 /* END*/
 
+
+/*   DELETEpRoductsReview   */
+export const deleteProductReview = createAsyncThunk(
+  "product/deleteProductReview",
+  async (obj, thunkAPI) => {
+    console.log(obj);
+    try {
+      setTokenValues();
+      const response = await fetch(
+        `http://localhost:5000/v2/product/deleteProductReviews/product/${obj}}`,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      console.log(response.status, "response", data);
+      if (response?.status === 200) {
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      console.log("Error", e.response.data);
+      thunkAPI.rejectWithValue(e.response.data);
+    }
+  }
+);
+/* END*/
+
 const initialStateValues = {
   isProductSliceFetching: false,
   isProductSliceSuccess: false,
@@ -934,6 +967,31 @@ const productSlice = createSlice({
     return state;
   });
   builder.addCase(updateProductReview.rejected, (state, { payload }) => {
+    state.isProductSliceFetchingSmall = true;
+    state.isProductSliceSuccess = false;
+    state.productSliceErrorMessage =
+      payload?.message || "something went wrong";
+    console.log(payload);
+    return state;
+  });
+  /*END*/
+
+  
+   /* delete product revieww REDUCERS*/
+   builder.addCase(deleteProductReview.fulfilled, (state, { payload }) => {
+    state.isProductSliceFetchingSmall = false;
+    console.log(payload);
+    state.isProductSliceSuccess = true;
+    state.productSliceSuccessMessage = payload?.message;
+    // state.singleProduct = payload.data
+    return state;
+  });
+  builder.addCase(deleteProductReview.pending, (state, { payload }) => {
+    state.isProductSliceFetchingSmall = true;
+    state.isProductSliceSuccess = false;
+    return state;
+  });
+  builder.addCase(deleteProductReview.rejected, (state, { payload }) => {
     state.isProductSliceFetchingSmall = true;
     state.isProductSliceSuccess = false;
     state.productSliceErrorMessage =

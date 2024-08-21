@@ -166,7 +166,7 @@ setRating("");
             <div className="row" key={user.id}>
               <div className="cont-left">
                 <img
-                  src={`/images/${user?.image}`}
+                  src={`${user?.image}`}
                   alt={user?.name}
                   title={user?.name}
                 />

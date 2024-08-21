@@ -120,7 +120,7 @@ setRating("");
   
 <div className="row">
       <div className="cont-left">
-      <img src={`/images/${user?.image}`}  alt={user?.name} title={user?.name} />
+      <img src={`${user?.image}`}  alt={user?.name} title={user?.name} />
       <ProductReviews productReviewsList={productReviewsList} 
                 token={token} hanldeSubmit={hanldeSubmit}
                 rating = {rating}

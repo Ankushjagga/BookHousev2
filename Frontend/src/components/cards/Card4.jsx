@@ -28,7 +28,7 @@ const Card4 = ({category , productList}) => {
 <NavLink to={`/shopitm/${user.id}`} className="card-link" key={user.id}>
 
      <div className="box" >
-        <img src={`/images/${user.image}`} alt={user.name}/>
+        <img src={`${user.image}`} alt={user.name}/>
         <h4>{user.name}</h4>
         <span className='card-prices'>
             <p>{user.price} ₹</p>

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import authSlice, { authData, getUserDetail } from "../../redux/auth";
 import "./Dashboard.css";
-import { productData , cartProducts , totalItemsInCart , deleteCartProducts , payment, DeleteAllCartProducts , updateProductReview} from '../../redux/Product';
+import { productData , cartProducts , totalItemsInCart , deleteCartProducts , payment, DeleteAllCartProducts , updateProductReview , deleteProductReview} from '../../redux/Product';
 import { getSingleProduct, clearAllSliceData , addToCart, clearAllSliceStates , productReviews } from "../../redux/Product";
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -27,7 +27,11 @@ const Dashboard = () => {
 
 const deleteReview = (id)=>{
 console.log(id)
-confirm("Are you sure you want to delete this review ??")
+const deleteReview = confirm("Are you sure you want to delete this review ??")
+if(deleteReview){
+  dispatch(deleteProductReview(id))
+  return ;
+}
 }
 
 
@@ -124,7 +128,7 @@ confirm("Are you sure you want to delete this review ??")
                 <td>{ele.Product.name}</td>
                 <td>
                   <img
-                    src={`images/${ele.Product.image}`}
+                    src={`${ele.Product.image}`}
                     alt={ele.Product.name}
                     className="dash-img"
                   />

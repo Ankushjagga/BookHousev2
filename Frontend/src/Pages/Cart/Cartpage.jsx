@@ -124,7 +124,7 @@ dispatch(payment(body))
              <tr >
               <td>
 
-              <figure><img src={`/images/${elem?.Product?.image}`} alt={elem?.Product?.name} className='cart-img'/></figure>
+              <figure><img src={`${elem?.Product?.image}`} alt={elem?.Product?.name} className='cart-img'/></figure>
               <p>{elem?.Product?.name}</p>
               </td>
 

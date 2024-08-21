@@ -503,7 +503,39 @@ const updateProductReviews = async (req,res)=>{
     }
 
 }
+/* ----- delete PRODUCTS REVIEWS   */
+const deleteProductReviews = async (req,res)=>{
+    let respObj = {
+        data : null,
+        message : ""
+    }
+    try {
+        const result = await ProductReview.destroy({
+            where :{
 
+                product_id : req.params.productId,
+            }
+     
+        })
+       
+            
+        console.log("result----", result);
+    respObj.data = result ;
+    respObj.message = "Product Review deleted sucessfully"
+    return res.status(200).send(respObj);
+  }
+
+
+
+
+    catch (error) {
+        console.log(error);
+        respObj.message = error
+        res.status(400).send(respObj)
+        
+    }
+
+}
 
 /* ----- GET SINGLE PRODUCTS REVIEWS   */
 const getSingleproductReview = async (req,res)=>{
@@ -571,14 +603,14 @@ const payment =  async (req, res) => {
 //   console.log(cartQuantity);
     try {
         const lineItems = await data.products.map((ele)=>{
-            console.log(`http://localhost:5173/images/${ele.Product.image}`)
+            console.log(`${ele.Product.image}`)
 
             return {
                 price_data: {
                     currency: "inr",
                     product_data: {
                         name : ele.Product.name,
-                        images : [`http://localhost:5173/images/${ele.Product.image}`],
+                        images : [`${ele.Product.image}`],
                         metadata: {
                             id: ele.id,
                         },
@@ -647,5 +679,6 @@ module.exports = {
     payment,
     getSingleproductReview,
     DeleteAllCartProducts,
-    updateProductReviews
+    updateProductReviews,
+    deleteProductReviews
 }

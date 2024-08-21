@@ -12,7 +12,7 @@ const Order = require("../models").Order
 const OrderDetail = require("../models").OrderDetail
 const Product = require("../models").Product
 const Categories = require("../models").categories
-
+const cloudinary = require("cloudinary").v2
 //ADMIN LOGIN
 const adminLogin = async (req,res) =>{
     const respObj = {
@@ -105,13 +105,20 @@ res.status(200).send(respObj);
 }
 
 const addProduct = async (req,res)=>{
+    const respObj = {
+        data : null,
+        message : ""
+    }
     try {
-        const respObj = {
-            data : null,
-            message : ""
-        }
-
-const result = await Product    
+      
+const image = req.file;
+console.log(image);
+      const imageCloudinary =   cloudinary.v2.uploader.upload(image, {upload_preset: "my_preset"}, (error, result)=>{
+            console.log(result, error);
+          });
+respObj.data = imageCloudinary;
+res.status(200).send(respObj);
+// const result = await Product    
     } catch (error) {
         console.log(error);
         respObj.message = error
@@ -158,5 +165,6 @@ module.exports = {
     getAllUser,
     deleteProduct,
     deleteCategory,
-    addProduct
+    addProduct,
+    addCategory
 }

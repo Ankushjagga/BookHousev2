@@ -6,7 +6,7 @@ const Cart = require("../models").Cart
 const User = require("../models").User
 const CartItem = require("../models").CartItem
 const ProductReview = require("../models").ProductReview
-const stripe = require("stripe")("sk_test_51JEoa7SEIJGjBh5JHeSE891DMo63CRx5QqGgqA8A6i28WMfkJdI6alLKLutY8lmQlvmRELBpxWWsCy3GsuSZqAHw00OcLjttqd")
+const stripe = require("stripe")(process.env.STRIPE_SCRETE_KEY)
 const express = require("express")
 const { v4: uuidv4 } = require("uuid");
 

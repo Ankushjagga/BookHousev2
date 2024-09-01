@@ -37,7 +37,7 @@ const role = Cookies.get("role")
         progress: undefined,
         theme: "light",
         }); 
-      Navigate("/adminD")
+      Navigate("/adminDashboard")
     }
    
   }, [])
@@ -129,7 +129,7 @@ for (let key in newErrorObj) {
    <>
    <div className="container" id="container">
     <div className="details">
-		<img className='login-img' src={Image} alt='img' />
+		<img className='login-img' src="https://res.cloudinary.com/daqnsxiyw/image/upload/v1724395542/Admin_bwlawg.png" alt='img' />
 		</div>
 	<div className="login-in-container">
 <form method='POST' className='loginForm'>

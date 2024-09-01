@@ -1,4 +1,6 @@
 const Sequelize = require("sequelize")
+require('dotenv').config()
+
 const Op = Sequelize.Op
 const Product = require("../models").Product
 const Categories = require("../models").categories

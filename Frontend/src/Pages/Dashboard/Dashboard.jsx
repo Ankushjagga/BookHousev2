@@ -66,13 +66,16 @@ if(deleteReview){
       {userDetail?.Orders?.length ?
       <table border={"5px"}>
         <thead>
+
+          <th>S. No.</th>
           <th>Name</th>
+          <th>Image</th>
           <th>Price</th>
           <th>Quantity</th>
           <th>Payment Status</th>
           <th>Address</th>
         </thead>
-        {userDetail &&  userDetail?.Orders?.map((ele) => {
+        {userDetail &&  userDetail?.Orders?.map((ele , index) => {
           const shippingAddress = JSON.parse(ele.shipping_address);
           const { address } = shippingAddress;
           console.log(ele.shipping_address);
@@ -84,7 +87,10 @@ if(deleteReview){
                   <>
                     <tbody>
                       <tr>
+                        <td>{index+1}</td>
                         <td>{prod?.Product?.name}</td>
+                        <td>  <img src={prod?.Product?.image} alt="image" className="dash-img" /> </td>
+
                         <td>{prod?.price} rupees</td>
                         <td>{prod?.quantity}</td>
                         <td>{ele.payment_status}</td>

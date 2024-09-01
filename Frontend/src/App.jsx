@@ -27,6 +27,13 @@ import CheckoutSuccess from './Pages/Checkout/CheckoutSuccess';
 import CheckoutError from './Pages/Checkout/CheckoutError';
 import AdminLogin from './Pages/Admin/AdminLogin';
 import AdminDashboard from './Pages/Admin/AdminDashboard';
+import AdminUser from './Pages/Admin/AdminUser';
+import AdminLayout from './components/Layout/AdminLayout';
+import AdminProduct from './Pages/Admin/AdminProduct';
+import AdminOrders from './Pages/Admin/AdminOrders';
+import AdminMessages from './Pages/Admin/AdminMessages';
+import AdminCategory from './Pages/Admin/AdminCategory';
+import AdminReviews from './Pages/Admin/AdminReviews';
 const token = Cookies.get("token");
 
 export const router = createBrowserRouter(
@@ -53,7 +60,15 @@ export const router = createBrowserRouter(
 <Route exact path ="/checkoutSuccess" element = {<CheckoutSuccess/>}/>
 <Route exact path ="/checkoutCancel" element = {<CheckoutError/>}/>
 <Route exact path ="/adminLogin" element = {<AdminLogin/>}/>
+<Route exact path ="" element = {<AdminLayout/>}>
 <Route exact path ="/adminDashboard" element = {<AdminDashboard/>}/>
+<Route exact path ="/adminUsers" element = {<AdminUser/>}/>
+<Route exact path ="/adminProducts" element = {<AdminProduct/>}/>
+<Route exact path ="/adminOrders" element = {<AdminOrders/>}/>
+<Route exact path ="/adminMessages" element = {<AdminMessages/>}/>
+<Route exact path ="/adminCategory" element = {<AdminCategory/>}/>
+<Route exact path ="/adminReviews" element = {<AdminReviews/>}/>
+</Route>
 
     </Route>
   )

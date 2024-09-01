@@ -72,12 +72,12 @@ const getAllUser = async (req,res) =>{
         const userCount = await User.count()
 respObj.data = user
 respObj.count = userCount
-res.status(200).send(respObj);
+return res.status(200).send(respObj);
         
     } catch (error) {
         console.log(error);
         respObj.message = error
-        res.status(400).send(respObj) 
+     return   res.status(400).send(respObj) 
     }
 }
 
@@ -174,6 +174,7 @@ const result = await Categories.delete({
 })    
 respObj.data = req.params.categoryId;
 respObj.message = "category deleted sucessfully"
+res.status(200).send(respObj)
     } catch (error) {
         console.log(error);
         respObj.message = error
@@ -181,11 +182,79 @@ respObj.message = "category deleted sucessfully"
     }
 }
 
+
+const getAllOrders = async (req,res)=>{
+    try {
+        const respObj = {
+            data : null,
+            message : ""
+        }
+
+const result = await User.findAll({
+ include : {model : Order ,
+    include : {model : OrderDetail ,
+        include : {model : Product}
+ }
+}  
+})    
+respObj.data = result;
+respObj.message = "fetchh"
+return res.status(200).send(respObj)
+    } catch (error) {
+        console.log(error);
+        respObj.message = error
+        res.status(400).send(respObj) 
+    }
+}
+
+/* ----- PRODUCTS REVIEWS   */
+const AllproductReviews = async (req,res)=>{
+    let respObj = {
+        data : null,
+        message : ""
+    }
+    try {
+  
+        const result = await ProductReview.findAll({
+     
+            include : [
+            {
+            
+                model : Product
+            },
+             {
+                model : User
+            }
+        ]
+        })
+            
+    respObj.data = result ;
+    respObj.message = "Review fetched"
+    return res.status(200).send(respObj);
+  }
+
+
+
+
+    catch (error) {
+        console.log(error);
+        respObj.message = error
+        res.status(400).send(respObj)
+        
+    }
+
+}
+
+
+
+
 module.exports = {
     adminLogin,
     getAllUser,
     deleteProduct,
     deleteCategory,
     addProduct,
-    addCategory
+    addCategory,
+    getAllOrders,
+    AllproductReviews
 }

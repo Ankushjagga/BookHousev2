@@ -106,7 +106,7 @@ useEffect(() => {
   return (
     <div className="container" id="container">
     <div className="details">
-		<img className='login-img' src={Image} alt='img' />
+		<img className='login-img' src="https://res.cloudinary.com/daqnsxiyw/image/upload/v1724395542/Forgotpassword_ripwvs.png" alt='img' />
 		</div>
 	<div className="login-in-container">
 <form method='POST' className='loginForm'>

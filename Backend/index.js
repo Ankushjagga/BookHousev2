@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express")
 const Product = require("./routes/product")
 const auth = require("./routes/UserRoutes")
@@ -9,7 +10,6 @@ const bodyParser = require('body-parser');
 const cookieParser =  require("cookie-parser")
 const session = require('express-session');
 const passport = require('passport');
-require('dotenv').config()
 app.use(cors({
      origin: 'http://localhost:5173',
      credentials: true

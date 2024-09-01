@@ -105,7 +105,7 @@ const submitContact = (e)=>{
 <button className='btn' type="submit" placeholder="send Message 😄" onClick={submitContact} >Send<i className="fas fa-paper-plane"></i></button>
 </form>
 <div className="details">
-    <img className='login-img img' src={contact} alt='img' />
+    <img className='login-img img' src="https://res.cloudinary.com/daqnsxiyw/image/upload/v1724395542/contact_fhkxdd.png" alt='img' />
     </div>
 </div>
 

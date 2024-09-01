@@ -1,4 +1,6 @@
 const Sequelize = require("sequelize")
+require('dotenv').config()
+
 const Op = Sequelize.Op
 const Product = require("../models").Product
 const Categories = require("../models").categories
@@ -33,7 +35,10 @@ const searchConditions = searchValues.map(value => ({
 
     const result = await Product.findAll({ where :{
         [Op.or] :  searchConditions
-    }});
+    }
+},
+
+);
     const count = await Product.count()
     respObj.count = count;
 respObj.data = result ;

@@ -535,6 +535,101 @@ export const deleteProductReview = createAsyncThunk(
 );
 /* END*/
 
+
+/*   getAllUser   */
+export const getAllUser = createAsyncThunk(
+  "product/getAllUser",
+  async (obj, thunkAPI) => {
+    console.log("helloooooooo")
+    try {
+      // setTokenValues();
+      const response = await fetch(
+        `http://localhost:5000/v2/admin/getAllUser`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      console.log("dsaadsssssssssssssssssssssssssssssssssssssssssssssss");
+      if (response?.status === 200) {
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      console.log("Error", e.response.data);
+      thunkAPI.rejectWithValue(e.response.data);
+    }
+  }
+);
+/* END*/
+/*   getAllOrders   */
+export const getAllOrders = createAsyncThunk(
+  "product/getAllOrders",
+  async (obj, thunkAPI) => {
+    try {
+      // setTokenValues();
+      const response = await fetch(
+        `http://localhost:5000/v2/admin/getAllOrders`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      if (response?.status === 200) {
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      console.log("Error", e.response.data);
+      thunkAPI.rejectWithValue(e.response.data);
+    }
+  }
+);
+/* END*/
+
+
+/*   AllproductReviews   */
+export const AllproductReviews = createAsyncThunk(
+  "product/AllproductReviews",
+  async (obj, thunkAPI) => {
+    try {
+      // setTokenValues();
+      const response = await fetch(
+        `http://localhost:5000/v2/admin/AllproductReviews`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      if (response?.status === 200) {
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      console.log("Error", e.response.data);
+      thunkAPI.rejectWithValue(e.response.data);
+    }
+  }
+);
+/* END*/
+
+
+
 const initialStateValues = {
   isProductSliceFetching: false,
   isProductSliceSuccess: false,
@@ -546,12 +641,18 @@ const initialStateValues = {
   randomProduct: null,
   latestProductList: [],
   categoriesList: [],
+  categoryCount : 0,
   singleProduct: null,
   totalCartItems: localStorage.getItem("cartCount")
     ? parseInt(localStorage.getItem("cartCount"))
     : 0,
   cartProductsList: [],
   productReviewsList: [],
+  userList : [],
+  userCount: 0,
+  productCount : 0,
+  ordersList : [],
+  AllproductReviewsList : []
 };
 
 const productSlice = createSlice({
@@ -572,12 +673,15 @@ const productSlice = createSlice({
         (state.randomProduct = null),
         (state.latestProductList = []),
         (state.categoriesList = []),
+        (state.categoryCount = []),
         (state.singleProduct = []),
         (state.totalCartItems = localStorage.getItem("cartCount")
           ? parseInt(localStorage.getItem("cartCount"))
           : 0),
         (state.cartProductsList = []),
         (state.productReviewsList = []);
+        (state.userCount = 0);
+        (state.getAllUser = []);
     },
   },
   extraReducers: (builder) => {
@@ -589,6 +693,7 @@ const productSlice = createSlice({
       // state.productSliceSuccessMessage = payload?.message || "Product list fetched successfully";
 
       state.productList = payload.data;
+      state.productCount = payload?.count
       return state;
     });
     builder.addCase(getAllProducts.pending, (state, { payload }) => {
@@ -661,6 +766,7 @@ const productSlice = createSlice({
       // state.productSliceSuccessMessage = payload?.message ;
 
       state.categoriesList = payload.data;
+      state.categoryCount = payload.count
       return state;
     });
     builder.addCase(getAllCategories.pending, (state, { payload }) => {
@@ -1000,6 +1106,86 @@ const productSlice = createSlice({
     return state;
   });
   /*END*/
+
+
+
+     /*All Users REDUCERS*/
+     builder.addCase(getAllUser.fulfilled, (state, { payload }) => {
+      state.isProductSliceFetchingSmall = false;
+      console.log(payload, "asasaddasadsdasadsdssssssssssssssssssss");
+      state.productSliceSuccessMessage = payload?.message;
+      state.userList = payload.data;
+      state.userCount = payload.count
+      // state.singleProduct = payload.data
+      return state;
+    });
+    builder.addCase(getAllUser.pending, (state, { payload }) => {
+      state.isProductSliceFetchingSmall = true;
+      state.isProductSliceSuccess = false;
+      return state;
+    });
+    builder.addCase(getAllUser.rejected, (state, { payload }) => {
+      state.isProductSliceFetchingSmall = true;
+      state.isProductSliceSuccess = false;
+      state.productSliceErrorMessage =
+        payload?.message || "something went wrong";
+      console.log(payload);
+      return state;
+    });
+    /*END*/
+
+     /*All ORDERS REDUCERS*/
+     builder.addCase(getAllOrders.fulfilled, (state, { payload }) => {
+      state.isProductSliceFetchingSmall = false;
+      state.productSliceSuccessMessage = payload?.message;
+      console.log(payload.data,"orderssssssssssssssssssssssssssssss");
+      
+      state.ordersList = payload.data;
+      console.log(state.ordersList);
+      
+      return state;
+    });
+    builder.addCase(getAllOrders.pending, (state, { payload }) => {
+      state.isProductSliceFetchingSmall = true;
+      state.isProductSliceSuccess = false;
+      return state;
+    });
+    builder.addCase(getAllOrders.rejected, (state, { payload }) => {
+      state.isProductSliceFetchingSmall = true;
+      state.isProductSliceSuccess = false;
+      state.productSliceErrorMessage =
+        payload?.message || "something went wrong";
+      console.log(payload);
+      return state;
+    });
+    /*END*/
+     /*All AllproductReviews REDUCERS*/
+     builder.addCase(AllproductReviews.fulfilled, (state, { payload }) => {
+      state.isProductSliceFetchingSmall = false;
+      state.productSliceSuccessMessage = payload?.message;
+      console.log(payload.data,"orderssssssssssssssssssssssssssssss");
+      
+      state.AllproductReviewsList = payload.data;
+      console.log(state.ordersList);
+      
+      return state;
+    });
+    builder.addCase(AllproductReviews.pending, (state, { payload }) => {
+      state.isProductSliceFetchingSmall = true;
+      state.isProductSliceSuccess = false;
+      return state;
+    });
+    builder.addCase(AllproductReviews.rejected, (state, { payload }) => {
+      state.isProductSliceFetchingSmall = true;
+      state.isProductSliceSuccess = false;
+      state.productSliceErrorMessage =
+        payload?.message || "something went wrong";
+      console.log(payload);
+      return state;
+    });
+    /*END*/
+
+
 
 
   },

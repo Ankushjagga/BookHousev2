@@ -1,16 +1,18 @@
 #sidemenu{
-display: grid;
+display: flex;
 width: 12vw;
      background-color: #101010;
      color: white;
-     height: 90vh;
-     padding: 1.2rem;
+     height: 100%;
+     flex-direction: column;
+    justify-content: start;
+
 }
-#sidemenu>li{
+#sidemenu>a{
     padding: 1.2rem;
-    margin:  2rem 1rem;
+    margin:  2rem 1rem!important;
 }
-#sidemenu>li:hover {
+#sidemenu>a:hover {
         transform: scale(1);
         color: #4267B2;
         cursor: pointer;

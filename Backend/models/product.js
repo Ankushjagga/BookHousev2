@@ -17,13 +17,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Product.init({
+    id : {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
+    },
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
     price: DataTypes.DECIMAL,
     category: DataTypes.STRING,
     image: DataTypes.TEXT,
     features : {
-      type :  DataTypes.TEXT ,
+      type :  DataTypes.JSON ,
       defaultValue : []
     },
     createdAt: {

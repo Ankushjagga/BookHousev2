@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 import { clearAdminSliceStates } from '../../redux/Admin';
 const AdminHeader = () => {
     const token = Cookies.get("token");
+    const role  = Cookies.get("role")
     const dispatch = useDispatch()
     const navigate = useNavigate()
   const handleLogout = ()=>{
@@ -44,7 +45,7 @@ const AdminHeader = () => {
   <img src= {logo} alt='logo'/>
     <h2>  Book<span className='rad'><b>House</b></span></h2>
   </div>
-  {token ? 
+  {token && role ==="admin" ? 
     <li className= 'nav-link lin' onClick={handleLogout}>Logout</li> 
   :
     <h3>ADMIN PANEL</h3>

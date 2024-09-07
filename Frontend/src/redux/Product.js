@@ -628,7 +628,156 @@ export const AllproductReviews = createAsyncThunk(
 );
 /* END*/
 
+/*   updateProduct   */
+export const updateProduct = createAsyncThunk(
+  "product/updateProduct",
+  async (obj, thunkAPI) => {
+    try {
+      // setTokenValues();
+      const response = await fetch(
+        `http://localhost:5000/v2/admin/updateProduct/product/${obj.productId}`,
+        {
+          method: "PUT",
+          body : JSON.stringify(obj),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      if (response?.status === 200) {
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      console.log("Error", e.response.data);
+      thunkAPI.rejectWithValue(e.response.data);
+    }
+  }
+);
+/* END*/
 
+/*   deleteProduct   */
+export const deleteProduct = createAsyncThunk(
+  "product/deleteProduct",
+  async (obj, thunkAPI) => {
+    try {
+      // setTokenValues();
+      const response = await fetch(
+        `http://localhost:5000/v2/admin/deleteProduct/product/${obj.productId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      if (response?.status === 200) {
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      console.log("Error", e.response.data);
+      thunkAPI.rejectWithValue(e.response.data);
+    }
+  }
+);
+/* END*/
+
+/*   addProduct   */
+export const addProduct = createAsyncThunk(
+  "product/addProduct",
+  async (obj, thunkAPI) => {
+    try {
+      // setTokenValues();
+      const response = await fetch(
+        `http://localhost:5000/v2/admin/addProduct`,
+        {
+          method: "POST",
+          body : JSON.stringify(obj),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      if (response?.status === 200) {
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      console.log("Error", e.response.data);
+      thunkAPI.rejectWithValue(e.response.data);
+    }
+  }
+);
+/* END*/
+/*   deleteCategory   */
+export const deleteCategory = createAsyncThunk(
+  "product/deleteCategory",
+  async (obj, thunkAPI) => {
+    try {
+      // setTokenValues();
+      const response = await fetch(
+        `http://localhost:5000/v2/admin/deleteCategory/category/${obj.categoryId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      if (response?.status === 200) {
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      console.log("Error", e.response.data);
+      thunkAPI.rejectWithValue(e.response.data);
+    }
+  }
+);
+/* END*/
+/*   addCategory   */
+export const addCategory = createAsyncThunk(
+  "product/addCategory",
+  async (obj, thunkAPI) => {
+    try {
+      // setTokenValues();
+      const response = await fetch(
+        `http://localhost:5000/v2/admin/addCategory`,
+        {
+          method: "POST",
+          body : JSON.stringify(obj),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      if (response?.status === 200) {
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      console.log("Error", e.response.data);
+      thunkAPI.rejectWithValue(e.response.data);
+    }
+  }
+);
+/* END*/
 
 const initialStateValues = {
   isProductSliceFetching: false,
@@ -1185,9 +1334,148 @@ const productSlice = createSlice({
     });
     /*END*/
 
+  /*updateProduct REDUCERS*/
+  builder.addCase(updateProduct.fulfilled, (state, { payload }) => {
+    state.isProductSliceFetchingSmall = false;
+    state.productSliceSuccessMessage = payload?.message;
+    const productListIndex = state.productList.findIndex((ele)=> ele?.id === payload?.data);
+    const updatedlistData = {
+      ...state.productList[productListIndex],
+      ...payload.data2
+
+    }
+   const updateProductData = [...state.productList];
+   updateProductData[productListIndex] = updatedlistData;
+   state.productList = updateProductData
+
+    state.isProductSliceSuccess = true
+    state.updateProduct = payload.data;
+    console.log(state.ordersList);
+    
+    return state;
+  });
+  builder.addCase(updateProduct.pending, (state, { payload }) => {
+    state.isProductSliceFetchingSmall = true;
+    state.isProductSliceSuccess = false;
+    return state;
+  });
+  builder.addCase(updateProduct.rejected, (state, { payload }) => {
+    state.isProductSliceFetchingSmall = true;
+    state.isProductSliceSuccess = false;
+    state.productSliceErrorMessage =
+      payload?.message || "something went wrong";
+      state.isProductSliceError= true
+    console.log(payload);
+    return state;
+  });
+
+     /*DELETE PRODUCT REDUCERS*/
+     builder.addCase(deleteProduct.fulfilled, (state, { payload }) => {
+      state.isProductSliceFetchingSmall = false;
+      state.productSliceSuccessMessage = payload?.message;
+   state.isProductSliceSuccess = true
+      const updatedlist = state.productList.filter((ele)=> ele.id != payload?.data);
+      state.productList = updatedlist;
+      
+      return state;
+    });
+    builder.addCase(deleteProduct.pending, (state, { payload }) => {
+      state.isProductSliceFetchingSmall = true;
+      state.isProductSliceSuccess = false;
+      return state;
+    });
+    builder.addCase(deleteProduct.rejected, (state, { payload }) => {
+      state.isProductSliceFetchingSmall = true;
+      state.isProductSliceSuccess = false;
+      state.productSliceErrorMessage =
+        payload?.message || "something went wrong";
+      console.log(payload);
+      state.isProductSliceError = true
+      return state;
+    });
 
 
 
+
+     /*add PRODUCT REDUCERS*/
+     builder.addCase(addProduct.fulfilled, (state, { payload }) => {
+      state.isProductSliceFetchingSmall = false;
+      state.productSliceSuccessMessage = payload?.message || "product added sucessfully";
+    state.isProductSliceSuccess = true
+      state.productList = [...state.productList , payload.data];
+      
+      return state;
+    });
+    builder.addCase(addProduct.pending, (state, { payload }) => {
+      state.isProductSliceFetchingSmall = true;
+      state.isProductSliceSuccess = false;
+      return state;
+    });
+    builder.addCase(addProduct.rejected, (state, { payload }) => {
+      state.isProductSliceFetchingSmall = true;
+      state.isProductSliceSuccess = false;
+      state.productSliceErrorMessage =
+        payload?.message || "something went wrong";
+    state.isProductSliceError = true
+
+      console.log(payload);
+      return state;
+    });
+    /*END*/
+
+         /*DELETE category REDUCERS*/
+         builder.addCase(deleteCategory.fulfilled, (state, { payload }) => {
+          state.isProductSliceFetchingSmall = false;
+          state.productSliceSuccessMessage = payload?.message;
+    state.isProductSliceSuccess  = true
+          const updatedlist = state.categoriesList.filter((ele)=> ele.id != payload?.data);
+          state.categoriesList = updatedlist;
+          
+          return state;
+        });
+        builder.addCase(deleteCategory.pending, (state, { payload }) => {
+          state.isProductSliceFetchingSmall = true;
+          state.isProductSliceSuccess = false;
+          return state;
+        });
+        builder.addCase(deleteCategory.rejected, (state, { payload }) => {
+          state.isProductSliceFetchingSmall = true;
+          state.isProductSliceSuccess = false;
+          state.isProductSliceError = true
+          state.productSliceErrorMessage =
+            payload?.message || "something went wrong";
+          console.log(payload);
+          return state;
+        });
+    
+
+        /*ADD category REDUCERS*/
+        builder.addCase(addCategory.fulfilled, (state, { payload }) => {
+          state.isProductSliceFetchingSmall = false;
+          state.productSliceSuccessMessage = payload?.message;
+             state.categoriesList = [...state.categoriesList ,payload.data] 
+          state.isProductSliceSuccess = true
+          return state;
+        });
+        builder.addCase(addCategory.pending, (state, { payload }) => {
+          state.isProductSliceFetchingSmall = true;
+          state.isProductSliceSuccess = false;
+          return state;
+        });
+        builder.addCase(addCategory.rejected, (state, { payload }) => {
+          state.isProductSliceFetchingSmall = true;
+          state.isProductSliceSuccess = false;
+          state.productSliceErrorMessage =
+            payload?.message || "something went wrong";
+          console.log(payload);
+          state.isProductSliceError = true
+          return state;
+        });
+    
+
+
+    /*END*/
+    /*END*/
   },
 });
 

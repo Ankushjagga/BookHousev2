@@ -20,7 +20,7 @@ const AdminReviews = () => {
             <th>Review</th>
             <th>Rating</th>
         </thead>
-        {AllproductReviewsList.map(ele=>{
+        {AllproductReviewsList.length > 0  && AllproductReviewsList.map(ele=>{
           return (
             <tbody>
             <td>
@@ -37,10 +37,14 @@ const AdminReviews = () => {
         </tbody>
 
           )
-        })}
+        }) 
+        
+
+        }
            
         
     </table>
+    {AllproductReviewsList.length === 0 && <h1 style={{textAlign: "center"}}>No Reviews for any Product 🥺</h1>}
     </div>
   )
 }

@@ -1,0 +1,52 @@
+.addProductForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 1rem;
+    background-image:  linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("https://res.cloudinary.com/daqnsxiyw/image/upload/v1725732579/black-branding-mockup_157927-4426_tcfa40.avif");
+    box-shadow: #4267B2 0px 5px 30px;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 4rem;
+}
+.addProductForm>input , .addProductForm>textarea  {
+    padding: 1rem;
+    outline: none;
+    margin: .5rem;
+    width: 70%;
+
+}
+.addProductForm>div>input{
+    width: 53vw;
+    padding: 1rem;
+    outline: none;
+    margin: .5rem;
+}
+.featuresBtn{
+    background-color :#4267B2;
+    border: none;
+    border-radius: .7rem;
+    margin: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+}
+.featuresBtn:hover{
+    background-color: rgb(17, 17, 40);
+    color: white;
+    transform: scaleY(1.1);
+
+}
+.select{
+    width: 55vw;
+    padding: 1rem;
+    outline: none;
+    margin: .5rem;
+    color: black;
+}
+.file{
+    border:  1px solid;
+}

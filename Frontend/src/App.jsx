@@ -34,6 +34,10 @@ import AdminOrders from './Pages/Admin/AdminOrders';
 import AdminMessages from './Pages/Admin/AdminMessages';
 import AdminCategory from './Pages/Admin/AdminCategory';
 import AdminReviews from './Pages/Admin/AdminReviews';
+import EditProduct from './Pages/Admin/EditProduct';
+import AdminAddProduct from './Pages/Admin/AdminAddProduct';
+import AddCategory from './Pages/Admin/AddCategory';
+import ScrollToTop from './components/scroll/Scroll';
 const token = Cookies.get("token");
 
 export const router = createBrowserRouter(
@@ -68,6 +72,9 @@ export const router = createBrowserRouter(
 <Route exact path ="/adminMessages" element = {<AdminMessages/>}/>
 <Route exact path ="/adminCategory" element = {<AdminCategory/>}/>
 <Route exact path ="/adminReviews" element = {<AdminReviews/>}/>
+<Route exact path ="/admineditProduct" element = {<EditProduct/>}/>
+<Route exact path ="/adminaddProduct" element = {<AdminAddProduct/>}/>
+<Route exact path ="/adminaddCategory" element = {<AddCategory/>}/>
 </Route>
 
     </Route>

@@ -15,12 +15,18 @@ dispatch(getAllOrders())
   
   
         {ordersList?.map((ele , index)=>{
+             const totalAmount = ele.Orders?.reduce((acc,ele)=>{
+              return acc + Number(ele.total_amount)
+            },0) 
+             console.log(totalAmount);
+             
           return (
             <div className='ordersDetail'>
 
    <strong>{index+1}. </strong> 
  <p>Name :  <strong>{ele?.name}</strong> </p>
  <p>Email :  <strong>{ele?.email}</strong> </p>
+ TOTAL AMOUNT : {totalAmount} rupees {"(including all taxes)"}
  <p> Orders : </p>
  {ele?.Orders?.length ?
  
@@ -34,8 +40,10 @@ dispatch(getAllOrders())
           <th>Price</th>
           <th>Quantity</th>
           <th>Payment Status</th>
+          <th>Total Amount</th>
         </thead>
   {ele.Orders.map((orders , index)=> {
+ 
     
     return  (
       orders?.OrderDetails.map((prod)=>{
@@ -43,13 +51,14 @@ dispatch(getAllOrders())
           <>
           <tbody>
           <tr>
-            <td>{index+1}</td>
+            <td rowSpan={orders.OrderDetails.length}>{index+1}</td>
             <td>{prod?.Product?.name}</td>
             <td>  <img src={prod?.Product?.image} alt="image" className="dash-img" /> </td>
 
             <td>{prod?.price} rupees</td>
             <td>{prod?.quantity}</td>
             <td>{orders.payment_status}</td>
+            <td>{prod?.price*prod?.quantity} rupess</td>
           </tr>
         </tbody>
           </>

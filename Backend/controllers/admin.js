@@ -12,7 +12,7 @@ const Order = require("../models").Order
 const OrderDetail = require("../models").OrderDetail
 const Product = require("../models").Product
 const Categories = require("../models").categories
-const cloudinary = require("cloudinary").v2
+// const cloudinary = require("cloudinary").v2
 //ADMIN LOGIN
 const adminLogin = async (req,res) =>{
     const respObj = {
@@ -82,13 +82,14 @@ return res.status(200).send(respObj);
 }
 
 const deleteProduct = async (req,res) =>{
-try {
     const respObj = {
         data : null,
         message : ""
     }
+try {
 
-    const result = await Product.delete({
+
+    const result = await Product.destroy({
         where : {
             id : req.params.productId
         }
@@ -104,18 +105,45 @@ res.status(200).send(respObj);
 }
 }
 
+
+const updateProduct = async (req,res) =>{
+    const respObj = {
+        data : null,
+        message : ""
+    }
+    try {
+    
+        const {name , description , price , category , features , image} = req.body;
+        const result = await Product.update({...req.body},{
+            where : {
+                id : req.params.productId
+            }
+        })
+    respObj.message = "Product updated sucessfully"
+    respObj.data = req.params.productId
+    respObj.data2 = req.body
+    res.status(200).send(respObj);
+        
+    } catch (error) {
+        console.log(error);
+        respObj.message = error
+        res.status(400).send(respObj) 
+    }
+    }
+
+
+
 const addProduct = async (req,res)=>{
     const respObj = {
         data : null,
         message : ""
     }
     try {
-      const {name , description , price , category , features} = req.body;
-const image = req?.file?.path;
+      const {name , description , price , category , features , image} = req.body;
 console.log(image);
      if(!image){
         respObj.message = "Please upload an image"
-        res.status(400).send(respObj)
+       return  res.status(400).send(respObj)
      }
 const product = await Product.create({
     name : name,
@@ -127,49 +155,50 @@ const product = await Product.create({
     })
 respObj.data = product;
 respObj.message = "product created sucessfully";
-res.status(200).send(respObj);
+return res.status(200).send(respObj);
 // const result = await Product    
     } catch (error) {
         console.log(error);
         respObj.message = error
-        res.status(400).send(respObj) 
+      return   res.status(400).send(respObj) 
     }
 }
 const addCategory = async (req,res)=>{
+    const respObj = {
+        data : null,
+        message : ""
+    }
     try {
-        const respObj = {
-            data : null,
-            message : ""
-        }
-        const image = req?.file?.path;
+ 
         
-        if(!image){
+        if(!req.body.image){
             respObj.message = "Please upload an image"
-            res.status(400).send(respObj)
+           return  res.status(400).send(respObj)
          }
 const result = await Categories.create({
     name : req.body.name ,
-    image : image
+    image : req.body.image
 })  
 respObj.message = "category created sucessfully";
 respObj.data = result;
-res.status(200).send(respObj);
+return res.status(200).send(respObj);
     } catch (error) {
-        console.log(error);
-        respObj.message = error
-        res.status(400).send(respObj) 
+        console.log(error); 
+        respObj.message = "Server error"
+       return  res.status(400).send(respObj) 
     }
 }
 
 
 const deleteCategory = async (req,res)=>{
+    const respObj = {
+        data : null,
+        message : ""
+    }
     try {
-        const respObj = {
-            data : null,
-            message : ""
-        }
+    
 
-const result = await Categories.delete({
+const result = await Categories.destroy({
     where :{ id : req.params.categoryId}
 })    
 respObj.data = req.params.categoryId;
@@ -256,5 +285,6 @@ module.exports = {
     addProduct,
     addCategory,
     getAllOrders,
-    AllproductReviews
+    AllproductReviews,
+    updateProduct
 }

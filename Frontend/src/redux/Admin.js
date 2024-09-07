@@ -117,7 +117,7 @@ Cookies.get("loginData") !== "undefined" && Cookies.get("loginData")
             state.isAdminSliceFetching = false;
             state.isAdminSliceSuccess = false;
             state.isAdminSliceError = true
-            state.adminSliceErrorMessage =   "something went wrong"
+            state.adminSliceErrorMessage =  payload?.message ||  "something went wrong"
 
  console.log(payload)
 

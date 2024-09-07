@@ -339,7 +339,7 @@ console.log(payload)
 builder.addCase(forgetPassword.fulfilled, (state, { payload }) => {
   state.isAuthSliceFetching = false;
   console.log(payload , "asdadadsdasdas");
-  // state.isAuthSliceSuccess = true;
+  state.isAuthSliceSuccess = true;
   //   state.token = payload.token.access.token;
   state.authSliceSuccessMessage = payload?.message || "message send sucessfully"
 
@@ -355,7 +355,7 @@ builder.addCase(forgetPassword.rejected, (state, { payload }) => {
   state.isAuthSliceFetching = false;
   state.isAuthSliceSuccess = false;
   state.isAuthSliceError = true
-  state.authSliceErrorMessage =   "something went wrong"
+  state.authSliceErrorMessage =   payload?.message ||  "something went wrong"
 
 console.log(payload)
 

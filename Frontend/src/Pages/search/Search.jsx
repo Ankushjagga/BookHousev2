@@ -68,7 +68,7 @@ return(
     <NavLink to={`/shopitm/${item.id}`} className="card-link"  key={item.id}>
 
 <div className="box">
-   <img src={`/images/${item.image}`} alt={item.name}/>
+   <img src={`${item.image}`} alt={item.name}/>
    <h4>{item.name}</h4>
    <span className='card-prices'>
        <p>{item.price}₹ </p>

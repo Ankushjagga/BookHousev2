@@ -26,7 +26,7 @@ const token = Cookies.get("token")
 const role = Cookies.get("role")
 
   useEffect(() => {
-    if(token && role ){
+    if(token && role === "admin" ){
       toast.error("need to logout first", {
         position: "top-right",
         autoClose: 5000,

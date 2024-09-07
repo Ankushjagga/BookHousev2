@@ -11,7 +11,7 @@ const AdminUser = () => {
   
   return (
     <div>
-    <h1>User Details :</h1>
+    <h1 style={{textAlign : "center" , marginTop : "1rem"}}>User Details :</h1>
     <table>
 
 <th>S. No.</th>

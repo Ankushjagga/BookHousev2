@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 const cookieParser =  require("cookie-parser")
 const session = require('express-session');
 const passport = require('passport');
-app.usecors();
+app.use(cors());
 // Use cookie-parser middleware
 app.use(cookieParser());
 app.use("/v2/stripe", express.raw({ type: 'application/json' }), webhook)

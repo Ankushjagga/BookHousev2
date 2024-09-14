@@ -109,7 +109,7 @@ const stripeWebhook = (request, response) => {
        console.log("id--------", id)
        if(id){
 
-         const apiUrl = `http://localhost:5000/v2/product/DeleteAllCartProducts/user/${id}`;
+         const apiUrl = `${process.env.FRONTEND_API}/v2/product/DeleteAllCartProducts/user/${id}`;
        const response = await axios.delete(apiUrl);
 
        console.log("response{{{{{{",response.data)

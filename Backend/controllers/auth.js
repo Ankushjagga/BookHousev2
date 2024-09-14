@@ -257,7 +257,7 @@ let userToJtok = _.pick(user, ["email"]);
 
     let token = jwt.sign(tokCandidate, process.env.PASSPORT_SECRETE_KEY);
 
-mailSend("Reset your password", `click link to resetPassword : http://localhost:5173/resetPassword/${token}`, email)
+mailSend("Reset your password", `click link to resetPassword : ${process.env.FRONTEND_API}/resetPassword/${token}`, email)
 respObj.data = user
 respObj.message = "mail send  sucessFully"
 return res.status(200).send(respObj);

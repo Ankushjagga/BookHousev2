@@ -6,8 +6,10 @@ import Card4 from '../../components/cards/Card4'
 import  { getAllProducts, productData , getAllCategories , totalItemsInCart, clearAllSliceData, clearAllSliceStates } from '../../redux/Product'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify';
+import Animation from "../../images/loading.gif"
 
 import { IoReturnDownBack } from 'react-icons/io5'
+import ComponentLoader from '../../components/loaders/ComponentLoader/ComponentLoader'
 const Home = () => {
   const { isProductSliceFetching , isProductSliceSuccess , productSliceErrorMessage  , productList , categoriesList}  = useSelector(productData)
   const dispatch  = useDispatch()
@@ -47,6 +49,7 @@ const Home = () => {
 
   return (
     <>
+    {/* {isProductSliceFetching && <ComponentLoader/>} */}
     <div className='banner'>
       <div className='banner2'></div>
       <div className='banner-head'>

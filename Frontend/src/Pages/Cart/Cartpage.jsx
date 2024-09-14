@@ -8,10 +8,12 @@ import { FaTrash } from 'react-icons/fa';
 import Stripebutton from '../../components/Stripebutton/Stripebutton';
 import { useDispatch, useSelector } from 'react-redux';
 import { productData , cartProducts , totalItemsInCart , deleteCartProducts , payment, DeleteAllCartProducts} from '../../redux/Product';
-import { getSingleProduct, clearAllSliceData , addToCart, clearAllSliceStates , productReviews } from "../../redux/Product";
+import { getSingleProduct, clearAllSliceData , addToCart, clearAllSliceStates , productReviews  } from "../../redux/Product";
 
 import Cookies from 'js-cookie';
 import { loadStripe } from '@stripe/stripe-js';
+import FallbackLoader from '../../components/loaders/FallbackLoader/FallbackLoader';
+import smalluploadLoader from "../../images/smalluploadLoader.gif"
 
 // import PayPalButton from '../../components/PayPal/PayPalButton';
 // import GooglePay from '../../components/PayPal/GooglePay';
@@ -21,7 +23,7 @@ const Cartpage = () => {
     
 const dispatch = useDispatch()
 const {cartProductsList  , totalCartItems} = useSelector(productData)
-const {isProductSliceFetching ,isProductSliceError, isProductSliceSuccess , productSliceErrorMessage , productSliceSuccessMessage , productReviewsList} = useSelector(productData)
+const {isProductSliceFetching ,isProductSliceFetchingSmall,isProductSliceError, isProductSliceSuccess , productSliceErrorMessage , productSliceSuccessMessage , productReviewsList} = useSelector(productData)
 
 const [totalAmount, setTotalAmount] = useState(0); 
 console.log(cartProductsList);
@@ -176,8 +178,8 @@ dispatch(payment(body))
   </div>
 <span className='payment'>
 
-<button className='btn bts' onClick={makePayment}>Pay {totalAmount + (cartQuantity)*50} ₹</button>
-
+<button className='btn bts' disabled ={isProductSliceFetchingSmall} onClick={makePayment}>Pay {totalAmount + (cartQuantity)*50} ₹</button>
+{isProductSliceFetchingSmall && <img className='load' src={smalluploadLoader} alt="Image Uploading" />}
  <h2>*********** use card number :  4000003560000008 for testing************* </h2>
 <button className='btn bts' onClick={deleteAllCart} >  Clear Cart <FaTrash/> </button>
 </span>

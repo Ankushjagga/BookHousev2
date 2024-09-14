@@ -26,7 +26,7 @@ Cookies.get("loginData") !== "undefined" && Cookies.get("loginData")
         "auth/registerUser",
         async (obj, thunkAPI) => {
           try {
-            const response = await fetch(`http://localhost:5000/v2/auth/register`, {
+            const response = await fetch(`${import.meta.env.VITE_API}/auth/register`, {
               method: "POST",
               headers: {
                 Accept: "application/json",
@@ -63,7 +63,7 @@ Cookies.get("loginData") !== "undefined" && Cookies.get("loginData")
         async (obj, thunkAPI) => {
         console.log(obj)
           try {
-            const response = await fetch(`http://localhost:5000/v2/auth/login`, {
+            const response = await fetch(`${import.meta.env.VITE_API}/auth/login`, {
               method: "POST",
               headers: {
                 Accept: "application/json",
@@ -96,7 +96,7 @@ Cookies.get("loginData") !== "undefined" && Cookies.get("loginData")
     async (obj, thunkAPI) => {
     console.log(obj)
       try {
-        const response = await fetch(`http://localhost:5000/v2/auth/contactUs`, {
+        const response = await fetch(`${import.meta.env.VITE_API}/auth/contactUs`, {
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -125,7 +125,7 @@ Cookies.get("loginData") !== "undefined" && Cookies.get("loginData")
     async (obj, thunkAPI) => {
     console.log(obj)
       try {
-        const response = await fetch(`http://localhost:5000/v2/auth/forgetPassword`, {
+        const response = await fetch(`${import.meta.env.VITE_API}/auth/forgetPassword`, {
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -155,7 +155,7 @@ Cookies.get("loginData") !== "undefined" && Cookies.get("loginData")
     async (obj, thunkAPI) => {
     console.log(obj, "obkkadkkasd")
       try {
-        const response = await fetch(`http://localhost:5000/v2/auth/resetPassword/${obj.token}`, {
+        const response = await fetch(`${import.meta.env.VITE_API}/auth/resetPassword/${obj.token}`, {
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -185,7 +185,7 @@ Cookies.get("loginData") !== "undefined" && Cookies.get("loginData")
       try {
         setTokenValues()
 
-        const response = await fetch(`http://localhost:5000/v2/auth/getUserDetail/userId/${userId}`, {
+        const response = await fetch(`${import.meta.env.VITE_API}/auth/getUserDetail/userId/${userId}`, {
           method: "GET",
           headers: {
             Accept: "application/json",

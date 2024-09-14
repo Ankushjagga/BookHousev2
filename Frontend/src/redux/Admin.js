@@ -26,7 +26,7 @@ Cookies.get("loginData") !== "undefined" && Cookies.get("loginData")
         async (obj, thunkAPI) => {
         console.log(obj)
           try {
-            const response = await fetch(`http://localhost:5000/v2/admin/adminLogin`, {
+            const response = await fetch(`${import.meta.env.VITE_API}/admin/adminLogin`, {
               method: "POST",
               headers: {
                 Accept: "application/json",

@@ -518,7 +518,7 @@ const deleteProductReviews = async (req,res)=>{
         const result = await ProductReview.destroy({
             where :{
 
-                product_id : req.params.productId,
+                product_id : req.params.productId
             }
      
         })
@@ -653,8 +653,8 @@ const payment =  async (req, res) => {
         mode : "payment",
         customer: customer.id,  
 
-        success_url :"http://localhost:5173/checkoutSuccess",
-        cancel_url :"http://localhost:5173/checkoutCancel"
+        success_url :`${process.env.FRONTEND_API}/checkoutSuccess`,
+        cancel_url :`${process.env.FRONTEND_API}/checkoutCancel`
       })
   
       res.status(200).send({

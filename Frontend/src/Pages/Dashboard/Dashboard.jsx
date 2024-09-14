@@ -4,6 +4,7 @@ import authSlice, { authData, getUserDetail } from "../../redux/auth";
 import "./Dashboard.css";
 import { productData , cartProducts , totalItemsInCart , deleteCartProducts , payment, DeleteAllCartProducts , updateProductReview , deleteProductReview} from '../../redux/Product';
 import { getSingleProduct, clearAllSliceData , addToCart, clearAllSliceStates , productReviews } from "../../redux/Product";
+import ComponentLoader from "../../components/loaders/ComponentLoader/ComponentLoader";
 const Dashboard = () => {
   const dispatch = useDispatch();
   const { userDetail } = useSelector(authData);
@@ -37,6 +38,7 @@ if(deleteReview){
 
   return (
     <>
+    {isProductSliceFetching && <ComponentLoader/>}
       <h1 className="dashboard">
         <i class="fa-solid fa-user"></i>
         Your Details
@@ -125,7 +127,7 @@ if(deleteReview){
           <th>Image</th>
           <th>Rating</th>
           <th>Review</th>
-          <th>Delete</th>
+          {/* <th>Delete</th> */}
         </thead>
         {   userDetail?.ProductReviews?.map((ele) => {
           return (
@@ -141,7 +143,7 @@ if(deleteReview){
                 </td>
                 <td>{ele.rating}</td>
                 <td>{ele.review_text}</td>
-                <td onClick = {() => deleteReview(ele?.product_id)} style={{cursor:"pointer"}}><i class="fa-solid fa-trash"></i></td>
+                {/* <td onClick = {() => deleteReview(ele?.product_id)} style={{cursor:"pointer"}}><i class="fa-solid fa-trash"></i></td> */}
               </tr>
             </tbody>
           );

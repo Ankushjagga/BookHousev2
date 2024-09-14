@@ -19,7 +19,7 @@ export const getAllProducts = createAsyncThunk(
   async (obj, thunkAPI) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API}/product/allProduct?searchQuery=${obj.searchValue}`,
+        `${import.meta.env.VITE_API}/v2/product/allProduct?searchQuery=${obj.searchValue}`,
         {
           method: "GET",
           headers: {
@@ -49,7 +49,7 @@ export const getRandomProduct = createAsyncThunk(
   async (obj, thunkAPI) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API}/product/getRandomProduct`,
+        `${import.meta.env.VITE_API}/v2/product/getRandomProduct`,
         {
           method: "GET",
           headers: {
@@ -78,7 +78,7 @@ export const getLatestProduct = createAsyncThunk(
   async (obj, thunkAPI) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API}/product/getLatestProduct`,
+        `${import.meta.env.VITE_API}/v2/product/getLatestProduct`,
         {
           method: "GET",
           headers: {
@@ -108,7 +108,7 @@ export const getAllCategories = createAsyncThunk(
   async (obj, thunkAPI) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API}/product/getAllCategories`,
+        `${import.meta.env.VITE_API}/v2/product/getAllCategories`,
         {
           method: "GET",
           headers: {
@@ -139,7 +139,7 @@ export const getProductsByCategory = createAsyncThunk(
     console.log(obj);
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API}/product/getProductsByCategory/${obj}`,
+        `${import.meta.env.VITE_API}/v2/product/getProductsByCategory/${obj}`,
         {
           method: "GET",
           headers: {
@@ -170,7 +170,7 @@ export const getSingleProduct = createAsyncThunk(
     console.log(obj);
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API}/product/getSingleProduct/${obj}`,
+        `${import.meta.env.VITE_API}/v2/product/getSingleProduct/${obj}`,
         {
           method: "GET",
           headers: {
@@ -201,7 +201,7 @@ export const addToCart = createAsyncThunk(
     try {
       setTokenValues();
       const response = await fetch(
-        `${import.meta.env.VITE_API}/product/addToCart/user/${userId}/products/${obj.id}`,
+        `${import.meta.env.VITE_API}/v2/product/addToCart/user/${userId}/products/${obj.id}`,
         {
           method: "POST",
           headers: {
@@ -239,7 +239,7 @@ export const totalItemsInCart = createAsyncThunk(
     try {
       setTokenValues();
       const response = await fetch(
-        `${import.meta.env.VITE_API}/product/totalItemsInCart/cart/${userId}`,
+        `${import.meta.env.VITE_API}/v2/product/totalItemsInCart/cart/${userId}`,
         {
           method: "GET",
           headers: {
@@ -277,7 +277,7 @@ export const cartProducts = createAsyncThunk(
     try {
       setTokenValues();
       const response = await fetch(
-        `${import.meta.env.VITE_API}/product/cartProducts/user/${userId}`,
+        `${import.meta.env.VITE_API}/v2/product/cartProducts/user/${userId}`,
         {
           method: "GET",
           headers: {
@@ -309,7 +309,7 @@ export const deleteCartProducts = createAsyncThunk(
     try {
       setTokenValues();
       const response = await fetch(
-        `${import.meta.env.VITE_API}/product/DeleteCartProducts/product/${obj.productId}/user/${userId}`,
+        `${import.meta.env.VITE_API}/v2/product/DeleteCartProducts/product/${obj.productId}/user/${userId}`,
         {
           method: "DELETE",
           headers: {
@@ -346,7 +346,7 @@ export const productReviews = createAsyncThunk(
     try {
       setTokenValues();
       const response = await fetch(
-        `${import.meta.env.VITE_API}/product/productReviews/product/${obj.productId}/user/${userId}`,
+        `${import.meta.env.VITE_API}/v2/product/productReviews/product/${obj.productId}/user/${userId}`,
         {
           method: "POST",
           headers: {
@@ -379,7 +379,7 @@ export const getSingleproductReview = createAsyncThunk(
     try {
       setTokenValues();
       const response = await fetch(
-        `${import.meta.env.VITE_API}/product/getSingleproductReviews/product/${obj.productId}`,
+        `${import.meta.env.VITE_API}/v2/product/getSingleproductReviews/product/${obj.productId}`,
         {
           method: "GET",
           headers: {
@@ -413,7 +413,7 @@ export const payment = createAsyncThunk(
 
       setTokenValues();
 
-      const response = await fetch(`${import.meta.env.VITE_API}/product/payment`, {
+      const response = await fetch(`${import.meta.env.VITE_API}/v2/product/payment`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -446,7 +446,7 @@ export const DeleteAllCartProducts = createAsyncThunk(
     try {
       setTokenValues();
       const response = await fetch(
-        `${import.meta.env.VITE_API}/product/DeleteAllCartProducts/user/${userId}`,
+        `${import.meta.env.VITE_API}/v2/product/DeleteAllCartProducts/user/${userId}`,
         {
           method: "DELETE",
           headers: {
@@ -478,7 +478,7 @@ export const updateProductReview = createAsyncThunk(
     try {
       setTokenValues();
       const response = await fetch(
-        `${import.meta.env.VITE_API}/product/updateProductReviews/product/${obj}}`,
+        `${import.meta.env.VITE_API}/v2/product/updateProductReviews/product/${obj}}`,
         {
           method: "PUT",
           headers: {
@@ -511,7 +511,7 @@ export const deleteProductReview = createAsyncThunk(
     try {
       setTokenValues();
       const response = await fetch(
-        `${import.meta.env.VITE_API}/product/deleteProductReviews/product/${obj}`,
+        `${import.meta.env.VITE_API}/v2/product/deleteProductReviews/product/${obj}`,
         {
           method: "DELETE",
           headers: {
@@ -544,7 +544,7 @@ export const getAllUser = createAsyncThunk(
     try {
       // setTokenValues();
       const response = await fetch(
-        `${import.meta.env.VITE_API}/admin/getAllUser`,
+        `${import.meta.env.VITE_API}/v2/admin/getAllUser`,
         {
           method: "GET",
           headers: {
@@ -574,7 +574,7 @@ export const getAllOrders = createAsyncThunk(
     try {
       // setTokenValues();
       const response = await fetch(
-        `${import.meta.env.VITE_API}/admin/getAllOrders`,
+        `${import.meta.env.VITE_API}/v2/admin/getAllOrders`,
         {
           method: "GET",
           headers: {
@@ -605,7 +605,7 @@ export const AllproductReviews = createAsyncThunk(
     try {
       // setTokenValues();
       const response = await fetch(
-        `${import.meta.env.VITE_API}/admin/AllproductReviews`,
+        `${import.meta.env.VITE_API}/v2/admin/AllproductReviews`,
         {
           method: "GET",
           headers: {
@@ -635,7 +635,7 @@ export const updateProduct = createAsyncThunk(
     try {
       // setTokenValues();
       const response = await fetch(
-        `${import.meta.env.VITE_API}/admin/updateProduct/product/${obj.productId}`,
+        `${import.meta.env.VITE_API}/v2/admin/updateProduct/product/${obj.productId}`,
         {
           method: "PUT",
           body : JSON.stringify(obj),
@@ -666,7 +666,7 @@ export const deleteProduct = createAsyncThunk(
     try {
       // setTokenValues();
       const response = await fetch(
-        `${import.meta.env.VITE_API}/admin/deleteProduct/product/${obj.productId}`,
+        `${import.meta.env.VITE_API}/v2/admin/deleteProduct/product/${obj.productId}`,
         {
           method: "DELETE",
           headers: {
@@ -696,7 +696,7 @@ export const addProduct = createAsyncThunk(
     try {
       // setTokenValues();
       const response = await fetch(
-        `${import.meta.env.VITE_API}/admin/addProduct`,
+        `${import.meta.env.VITE_API}/v2/admin/addProduct`,
         {
           method: "POST",
           body : JSON.stringify(obj),
@@ -726,7 +726,7 @@ export const deleteCategory = createAsyncThunk(
     try {
       // setTokenValues();
       const response = await fetch(
-        `${import.meta.env.VITE_API}/admin/deleteCategory/category/${obj.categoryId}`,
+        `${import.meta.env.VITE_API}/v2/admin/deleteCategory/category/${obj.categoryId}`,
         {
           method: "DELETE",
           headers: {
@@ -755,7 +755,7 @@ export const addCategory = createAsyncThunk(
     try {
       // setTokenValues();
       const response = await fetch(
-        `${import.meta.env.VITE_API}/admin/addCategory`,
+        `${import.meta.env.VITE_API}/v2/admin/addCategory`,
         {
           method: "POST",
           body : JSON.stringify(obj),

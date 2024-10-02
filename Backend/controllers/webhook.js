@@ -76,8 +76,10 @@ const stripeWebhook = (request, response) => {
     let data;
     let eventType;
     let event;
-    // const endpointSecret = "whsec_42432a9965401b2a00ea7c668f5fb083175c335090d895352d543b804ec847db";
-    const endpointSecret = "whsec_q5mkwfnJJozua8JEZgVwRKH35nU3Rk62";
+    console.log("stripeWebhook================================");
+    
+    const endpointSecret = "whsec_42432a9965401b2a00ea7c668f5fb083175c335090d895352d543b804ec847db";
+    // const endpointSecret = "whsec_q5mkwfnJJozua8JEZgVwRKH35nU3Rk62";
     if(endpointSecret){
     const sig = request.headers['stripe-signature'];
 
@@ -110,7 +112,9 @@ const stripeWebhook = (request, response) => {
        console.log("id--------", id)
        if(id){
 
-         const apiUrl = `${process.env.FRONTEND_API}/v2/product/DeleteAllCartProducts/user/${id}`;
+         const apiUrl = `${process.env.API}/v2/product/DeleteAllCartProducts/user/${id}`;
+         console.log("apiurl---", apiUrl);
+         
        const response = await axios.delete(apiUrl);
 
        console.log("response{{{{{{",response.data)

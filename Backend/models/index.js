@@ -17,7 +17,7 @@ if (config.use_env_variable) {
 }
 
 fs
-  .readdirSync(__dirname)
+  .readdirSync(__dirname) 
   .filter(file => {
     return (
       file.indexOf('.') !== 0 &&

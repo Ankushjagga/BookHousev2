@@ -78,8 +78,8 @@ const stripeWebhook = (request, response) => {
     let event;
     console.log("stripeWebhook================================");
     
-    const endpointSecret = "whsec_42432a9965401b2a00ea7c668f5fb083175c335090d895352d543b804ec847db";
-    // const endpointSecret = "whsec_q5mkwfnJJozua8JEZgVwRKH35nU3Rk62";
+    // const endpointSecret = "whsec_42432a9965401b2a00ea7c668f5fb083175c335090d895352d543b804ec847db";
+    const endpointSecret = "whsec_q5mkwfnJJozua8JEZgVwRKH35nU3Rk62";
     if(endpointSecret){
     const sig = request.headers['stripe-signature'];
 

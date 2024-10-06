@@ -9,6 +9,7 @@ import { authData, clearAllSliceStates, registerUser } from '../../redux/auth';
 import "./register.css";
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from "js-cookie";
+import smalluploadLoader from "../../images/smalluploadLoader.gif"
 
 const Register = () => {
 
@@ -19,7 +20,7 @@ const Register = () => {
   const [passwordInput , setPasswordInput] = useState("password")
 
   const dispatch = useDispatch();
-  const {loggedInUserName, isAuthSliceSuccess , authSliceSuccessMessage , isAuthSliceError , authSliceErrorMessage} = useSelector(authData)
+  const {loggedInUserName, isAuthSliceSuccess ,isAuthSliceFetchingSmall ,authSliceSuccessMessage , isAuthSliceError , authSliceErrorMessage} = useSelector(authData)
   const token = Cookies.get("token")
 
   useEffect(() => {
@@ -150,6 +151,7 @@ console.log("authslcie ", isAuthSliceSuccess)
 {error.phoneNumber}
 
 <button className='btn' id='bt' type="submit" placeholder='Submit' onClick={handleSubmit}>Register</button>
+{isAuthSliceFetchingSmall && <img className='load' src={smalluploadLoader} alt="Image Uploading" />}
 
 <p style={{margin: "1rem"}} >already registered ? <NavLink to="/login"><i style={{color: "#4267B2",textDecoration:"underline"}} > login  now.</i></NavLink> </p>
 </form>

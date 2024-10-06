@@ -248,7 +248,7 @@ Cookies.get("loginData") !== "undefined" && Cookies.get("loginData")
         extraReducers: (builder) => {
 
           builder.addCase(registerUser.fulfilled, (state, { payload }) => {
-            state.isAuthSliceFetching = false;
+            state.isAuthSliceFetchingSmall = false;
             //   state.isLoggedIn = true;
       
             console.log(payload);
@@ -261,14 +261,14 @@ Cookies.get("loginData") !== "undefined" && Cookies.get("loginData")
             return state;
           });
           builder.addCase(registerUser.pending, (state, { payload }) => {
-            state.isAuthSliceFetching = true;
+            state.isAuthSliceFetchingSmall = true;
             state.isAuthSliceSuccess = false;
             console.log(payload);
             
             return state;
           });
           builder.addCase(registerUser.rejected, (state, { payload }) => {
-            state.isAuthSliceFetching = false;
+            state.isAuthSliceFetchingSmall = false;
             state.isAuthSliceError = true
             state.authSliceErrorMessage = payload?.message 
             console.log(payload);
@@ -279,7 +279,7 @@ Cookies.get("loginData") !== "undefined" && Cookies.get("loginData")
 //LOGIN USER REDUCER
           builder.addCase(loginUser.fulfilled, (state, { payload }) => {
             console.log("------", payload)
-            state.isAuthSliceFetching = false;
+            state.isAuthSliceFetchingSmall = false;
             console.log(payload , "asdadadsdasdas");
             state.isAuthSliceSuccess = true;
             state.loggedInUserName = payload?.data?.name,
@@ -290,13 +290,13 @@ Cookies.get("loginData") !== "undefined" && Cookies.get("loginData")
             return state;
           });
           builder.addCase(loginUser.pending, (state, { payload }) => {
-            state.isAuthSliceFetching = true;
+            state.isAuthSliceFetchingSmall = true;
             state.isAuthSliceSuccess = false;
             
             return state;
           });
           builder.addCase(loginUser.rejected, (state, { payload }) => {
-            state.isAuthSliceFetching = false;
+            state.isAuthSliceFetchingSmall = false;
             state.isAuthSliceSuccess = false;
             state.isAuthSliceError = true
             state.authSliceErrorMessage =   "something went wrong"
@@ -309,7 +309,7 @@ Cookies.get("loginData") !== "undefined" && Cookies.get("loginData")
 
 //CONTACT US REDUCER
 builder.addCase(contactUs.fulfilled, (state, { payload }) => {
-  state.isAuthSliceFetching = false;
+  state.isAuthSliceFetchingSmall = false;
   console.log(payload , "asdadadsdasdas");
   state.isAuthSliceSuccess = true;
   //   state.token = payload.token.access.token;
@@ -318,13 +318,13 @@ builder.addCase(contactUs.fulfilled, (state, { payload }) => {
   return state;
 });
 builder.addCase(contactUs.pending, (state, { payload }) => {
-  state.isAuthSliceFetching = true;
+  state.isAuthSliceFetchingSmall = true;
   state.isAuthSliceSuccess = false;
   
   return state;
 });
 builder.addCase(contactUs.rejected, (state, { payload }) => {
-  state.isAuthSliceFetching = false;
+  state.isAuthSliceFetchingSmall = false;
   state.isAuthSliceSuccess = false;
   state.isAuthSliceError = true
   state.authSliceErrorMessage =   "something went wrong"

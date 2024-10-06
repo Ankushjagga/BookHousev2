@@ -91,3 +91,11 @@ font-size: 1.2rem;
 .card-link{
     color: black;
 }
+.loading{
+    padding: 10rem !important;
+}
+.skeleton-box {
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+  }

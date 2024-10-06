@@ -6,12 +6,13 @@ import Cookies from "js-cookie";
 import contact from "../../images/contact.png";
 import { ToastContainer, toast } from 'react-toastify';
 import { authData, clearAllSliceStates, contactUs } from '../../redux/auth';
+import smalluploadLoader from "../../images/smalluploadLoader.gif"
 
 import "./contact.css"
 import { useDispatch, useSelector } from 'react-redux';
 const Contact = () => {
   const token = Cookies.get('token');
-const {authSliceSuccessMessage ,authSliceErrorMessage , isAuthSliceSuccess , isAuthSliceError} = useSelector(authData)
+const {authSliceSuccessMessage ,authSliceErrorMessage , isAuthSliceSuccess ,isAuthSliceFetchingSmall ,isAuthSliceError} = useSelector(authData)
   const [userData,setuserData] = useState({name:"",email:"",message:""});
   const Navigate = useNavigate()
   const dispatch = useDispatch()
@@ -102,7 +103,10 @@ const submitContact = (e)=>{
 </div>
 
 <textarea placeholder='Enter message' className="inp"  rows={5}  value={userData.message} onChange={handleInput} name="message" ></textarea>
-<button className='btn' type="submit" placeholder="send Message 😄" onClick={submitContact} >Send<i className="fas fa-paper-plane"></i></button>
+<button className='btn' type="submit" placeholder="send Message 😄" onClick={submitContact} >Send<i className="fas fa-paper-plane"></i>
+{isAuthSliceFetchingSmall && <img className='load' src={smalluploadLoader} alt="Image Uploading" />}
+
+</button>
 </form>
 <div className="details">
     <img className='login-img img' src="https://res.cloudinary.com/daqnsxiyw/image/upload/v1724395542/contact_fhkxdd.png" alt='img' />

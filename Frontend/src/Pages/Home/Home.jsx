@@ -7,7 +7,8 @@ import  { getAllProducts, productData , getAllCategories , totalItemsInCart, cle
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify';
 import Animation from "../../images/loading.gif"
-
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import { IoReturnDownBack } from 'react-icons/io5'
 import ComponentLoader from '../../components/loaders/ComponentLoader/ComponentLoader'
 const Home = () => {
@@ -65,22 +66,22 @@ const Home = () => {
         <h1 className='categories'><span className='sp'>  Catego<span className='rad'>ries</span>  </span></h1>
         <div className='category'>
 
-    <Catrgory data={categoriesList}/>
+    <Catrgory data={categoriesList}  isFetching = {isProductSliceFetching} />
    
     </div>
         <h1 className='categories'><span className='sp'>  Latest <span className='rad'>Items</span>  </span></h1>
 <h1 className='sub-category'>🖊️ Pen/Pencils </h1>
         <div className='card-price menu'>
-        <Card4 category = {'Pencil'} productList= {productList} />
+        <Card4 category = {'Pencil'} productList= {productList} isFetching = {isProductSliceFetching}  />
        
         </div>
         <h1 className='sub-category'> ⛓️ KeyChains </h1>
         <div className='card-price menu '>
-        <Card4 category = {'Keychain'} productList= {productList}/>
+        <Card4 category = {'Keychain'} productList= {productList} isFetching = {isProductSliceFetching} />
         </div>
         <h1 className='sub-category'>📑 Assignment Files </h1>
         <div className='card-price menu'>
-       <Card4 category = {'AssignmentFile'} productList= {productList}/>
+       <Card4 category = {'AssignmentFile'} productList= {productList}  isFetching = {isProductSliceFetching}/>
         </div>
         <div className='subscribe'>
             <h4>Get All The Latest Notification 🔔</h4>

@@ -9,6 +9,7 @@ import Image from "../../images/Login.png"
 import { authData, loginUser, registerUser , clearAllSliceStates } from '../../redux/auth';
 import { useDispatch , useSelector } from 'react-redux';
 import Cookies from "js-cookie";
+import smalluploadLoader from "../../images/smalluploadLoader.gif"
 
 const Login = () => {
 
@@ -18,7 +19,7 @@ const Login = () => {
   const [error , setError] = useState({email:"", password : ""})
 
   const dispatch = useDispatch()
-  const {loggedInUserName, isAuthSliceSuccess , authSliceSuccessMessage , isAuthSliceError , authSliceErrorMessage} = useSelector(authData)
+  const {loggedInUserName, isAuthSliceSuccess , isAuthSliceFetchingSmall , authSliceSuccessMessage , isAuthSliceError , authSliceErrorMessage} = useSelector(authData)
 
 
   const Navigate =useNavigate();
@@ -141,7 +142,10 @@ for (let key in newErrorObj) {
   {error.password}
   </span>
 
-  <button className='btn' id='bt'  placeholder='Submit'onClick={handleSubmit}  >Submit</button>
+  <button className='btn' id='bt'  placeholder='Submit'onClick={handleSubmit}  >Submit 
+  {isAuthSliceFetchingSmall && <img className='load' src={smalluploadLoader} alt="Image Uploading" />}
+
+  </button>
   <NavLink to="/forgetPassword"><i style={{color: "#4267B2",textDecoration:"underline"}} > Forget Password?</i></NavLink> 
   <p style={{margin: "1rem"}} >New to BookHouse? <NavLink to="/register"><i style={{color: "#4267B2",textDecoration:"underline"}} > Sign up now.</i></NavLink> </p>
 </form>

@@ -5,9 +5,11 @@ import "./Dashboard.css";
 import { productData , cartProducts , totalItemsInCart , deleteCartProducts , payment, DeleteAllCartProducts , updateProductReview , deleteProductReview} from '../../redux/Product';
 import { getSingleProduct, clearAllSliceData , addToCart, clearAllSliceStates , productReviews } from "../../redux/Product";
 import ComponentLoader from "../../components/loaders/ComponentLoader/ComponentLoader";
+import Skeleton , {SkeletonTheme}from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { userDetail } = useSelector(authData);
+  const { userDetail , isAuthSliceFetching} = useSelector(authData);
   const {isProductSliceFetching ,isProductSliceError, isProductSliceSuccess , productSliceErrorMessage , productSliceSuccessMessage , productReviewsList} = useSelector(productData)
   useEffect(() => {
     dispatch(getUserDetail());
@@ -43,6 +45,17 @@ if(deleteReview){
         <i class="fa-solid fa-user"></i>
         Your Details
       </h1>
+      {isAuthSliceFetching
+            ? // Show skeletons while data is being fetched
+              Array(3)
+                .fill() // You can adjust the number of skeletons here
+                .map((_, index) => (
+                  <div  key={index}>
+                    <SkeletonTheme baseColor="#e0e0e0" highlightColor="#f5f5f5">
+                      <Skeleton   borderRadius=".5rem"  />
+                    </SkeletonTheme>
+                  </div>
+                )) :
       <span className="detail">
         <p>
           {" "}
@@ -58,6 +71,7 @@ if(deleteReview){
           <b>Phone Number :-</b> {userDetail?.PhoneNumber}
         </p>
       </span>
+}
 
      
 
@@ -77,17 +91,19 @@ if(deleteReview){
           <th>Payment Status</th>
           <th>Address</th>
         </thead>
+
+        <tbody>
+   
         {userDetail &&  userDetail?.Orders?.map((ele , index) => {
           const shippingAddress = JSON.parse(ele.shipping_address);
           const { address } = shippingAddress;
           console.log(ele.shipping_address);
-
+      
           return (
             <>
               {ele?.OrderDetails?.map((prod) => {
                 return (
                   <>
-                    <tbody>
                       <tr>
                         <td>{index+1}</td>
                         <td>{prod?.Product?.name}</td>
@@ -100,13 +116,57 @@ if(deleteReview){
                           {address.country} {address.city}
                         </td>
                       </tr>
-                    </tbody>
                   </>
                 );
               })}
             </>
           );
         })}
+{isAuthSliceFetching && [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]?.map((data) => (
+                                            <tr key={data}>
+                                                <td>
+                                                    <div className="tableTd">
+                                                        <Skeleton height={"20px"} width={"84px"} />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="tableTd">
+                                                        <Skeleton height={"20px"} width={"84px"} />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="tableTd">
+                                                        <Skeleton height={"20px"} width={"84px"} />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="tableTd">
+                                                        <Skeleton height={"20px"} width={"84px"} />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="tableTd">
+                                                        <Skeleton height={"20px"} width={"84px"} />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="tableTd">
+                                                        <Skeleton height={"20px"} width={"84px"} />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="tableTd">
+                                                        <Skeleton height={"20px"} width={"84px"} />
+                                                    </div>
+                                                </td>
+                                          
+                                            </tr>
+                                        ))
+                                    }
+
+
+</tbody>
+
       </table>
 :     <>
 
@@ -129,15 +189,15 @@ if(deleteReview){
           <th>Review</th>
           {/* <th>Delete</th> */}
         </thead>
+        <tbody >
         {   userDetail?.ProductReviews?.map((ele) => {
           return (
-            <tbody key={ele.id}>
-              <tr>
-                <td>{ele.Product.name}</td>
+              <tr key={ele.id}>
+                <td>{ele?.Product?.name}</td>
                 <td>
                   <img
-                    src={`${ele.Product.image}`}
-                    alt={ele.Product.name}
+                    src={`${ele?.Product?.image}`}
+                    alt={ele?.Product?.name}
                     className="dash-img"
                   />
                 </td>
@@ -145,11 +205,40 @@ if(deleteReview){
                 <td>{ele.review_text}</td>
                 {/* <td onClick = {() => deleteReview(ele?.product_id)} style={{cursor:"pointer"}}><i class="fa-solid fa-trash"></i></td> */}
               </tr>
-            </tbody>
           );
         }) 
-      
-        }
+        
+      }
+
+{isAuthSliceFetching && [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]?.map((data) => (
+                                            <tr key={data}>
+                                                <td>
+                                                    <div className="tableTd">
+                                                        <Skeleton height={"20px"} width={"84px"} />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="tableTd">
+                                                        <Skeleton height={"20px"} width={"84px"} />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="tableTd">
+                                                        <Skeleton height={"20px"} width={"84px"} />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="tableTd">
+                                                        <Skeleton height={"20px"} width={"84px"} />
+                                                    </div>
+                                                </td>
+                                       
+                                          
+                                            </tr>
+                                        ))
+                                    }
+
+      </tbody>
       </table> 
     : 
     <>
@@ -165,7 +254,18 @@ if(deleteReview){
         {" "}
         <i class="fa-regular fa-message"></i> Your Messages
       </h1>
-      { messageArray?.length ? messageArray?.map((msg, index) => (
+      {isAuthSliceFetching
+            ? // Show skeletons while data is being fetched
+              Array(3)
+                .fill() // You can adjust the number of skeletons here
+                .map((_, index) => (
+                  <div  key={index}>
+                    <SkeletonTheme baseColor="#e0e0e0" highlightColor="#f5f5f5">
+                      <Skeleton   borderRadius=".5rem"  />
+                    </SkeletonTheme>
+                  </div>
+                )) :
+       messageArray?.length ? messageArray?.map((msg, index) => (
         <ol className="dash-li" key={index}>
           <li>{msg}</li>
         </ol>

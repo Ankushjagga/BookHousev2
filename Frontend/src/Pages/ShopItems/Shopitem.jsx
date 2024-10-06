@@ -11,7 +11,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import ProductReviews from "../../components/ProductReviews/ProductReviews";
-
+import smalluploadLoader from "../../images/smalluploadLoader.gif"
+import Skeleton , {SkeletonTheme}from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 const override = {
   display: "block",
   margin: "10rem auto",
@@ -160,7 +162,45 @@ setRating("");
           <dd style={{ opacity: 0.6, marginLeft: ".3rem" }}>{user?.name}</dd>
         </dl>
       </span>
-      {!loading ? (
+      {
+           isProductSliceFetching ? (
+            <div className="row">
+              <div className="cont-left">
+                <Skeleton  height={500} width={500} /> {/* Skeleton for the image */}
+                <Skeleton height={20} width={150} /> {/* Skeleton for the text */}
+                <Skeleton count={3} height={15} /> {/* Multiple skeleton lines */}
+              </div>
+              <div className="con-right">
+                <h1>
+                  <Skeleton width={200} />
+                </h1>
+                <span>
+                  <Skeleton width={100} />
+                </span>
+                <div className="instruct">
+                  <h4>
+                    <Skeleton width={150} />
+                  </h4>
+                  <p className="desc">
+                    <Skeleton count={6} />
+                  </p>
+                </div>
+                <div className="features">
+                  <h4>
+                    <Skeleton width={150} />
+                  </h4>
+                  <ol className="shop-features">
+                    <Skeleton count={4} />
+                  </ol>
+                </div>
+                <span className="card-prices">
+                  <Skeleton width={100} />
+                  <Skeleton width={80} />
+                  <Skeleton width={100} />
+                </span>
+              </div>
+            </div>
+          ) :
         user ? (
           <>
             <div className="row" key={user.id}>
@@ -244,17 +284,10 @@ setRating("");
           //  onClick={()=> setcart([...cart,user])} onClickCapture={handleclick}
           <h1>No data found</h1>
         )
-      ) : (
-        <RingLoader
-          color={"#ffff"}
-          loading={loading}
-          size={150}
-          height={250}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-          cssOverride={override}
-        />
-      )}
+}
+
+
+
     </>
   );
 };

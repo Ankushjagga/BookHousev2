@@ -31,7 +31,7 @@ const AdminReviews = () => {
               <tr>{ele?.User?.email ? ele?.User?.email :"NA"}</tr>
               </td>
               <td>   <tr>{ele?.Product?.name}</tr></td>
-              <td>   <tr><img src={ele?.Product?.image} alt={ele?.Product.name} className='dash-img'/></tr></td>
+              <td>   <tr><img src={ele?.Product?.image} alt={ele?.Product?.name} className='dash-img'/></tr></td>
               <td>   <tr>{ele?.review_text}</tr></td>
               <td>   <tr>{ele?.rating}</tr></td>
         </tbody>

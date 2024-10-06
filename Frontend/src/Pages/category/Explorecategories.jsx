@@ -4,13 +4,15 @@ import { NavLink , useParams } from 'react-router-dom';
 import { clearAllSliceData, clearAllSliceStates, getProductsByCategory, productData } from '../../redux/Product';
 import "./category.css"
 import { useDispatch, useSelector } from 'react-redux';
+import Skeleton , {SkeletonTheme}from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 const Explorecategories = () => {
 // const truncate = (str)=>{
 
 //   return str.length > 10 ? str.substring(0, 50) + "..." : str;
 // }
 const dispatch = useDispatch();
-const {productList} = useSelector(productData)
+const {productList ,isProductSliceFetching} = useSelector(productData)
 const [user,setuser] = useState([]);
 let { id } = useParams();
   
@@ -36,7 +38,20 @@ let { id } = useParams();
     </dl>
 </span>
 <div className='menu'>
-    {user.length?
+{isProductSliceFetching
+    ? // Show skeletons while data is being fetched
+      Array(8)
+        .fill() // You can adjust the number of skeletons here
+        .map((_, index) => (
+          <div className="skeleton-box" key={index}>
+            <SkeletonTheme baseColor="#e0e0e0" highlightColor="#f5f5f5">
+              <Skeleton height={200} borderRadius=".5rem" className="loading" />
+            </SkeletonTheme>
+          </div>
+        )) :
+
+
+    user.length?
     user.map((data)=>{
         return (
 <NavLink to={`/shopitm/${data.id}`} className="card-link" key={data.id}>

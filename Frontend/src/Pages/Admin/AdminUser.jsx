@@ -8,7 +8,12 @@ const AdminUser = () => {
   useEffect(() => {
    dispatch(getAllUser())
   }, [])
-  
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      behavior: "instant",
+    });
+  }, []);
   return (
     <div>
     <h1 style={{textAlign : "center" , marginTop : "1rem"}}>User Details :</h1>

@@ -29,7 +29,12 @@ setuserData({name: loginData?.name , email : loginData?.email , message : ""})
 console.log(loginData?.name)
 
 },[])
-
+useEffect(() => {
+  window.scroll({
+    top: 0,
+    behavior: "instant",
+  });
+}, []);
 useEffect(() => {
   if(!token){
     toast.error("need to login first", {

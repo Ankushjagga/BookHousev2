@@ -35,7 +35,12 @@ return  ()=>{
   dispatch(clearAllSliceStates())
 }
 }, [])
-
+useEffect(() => {
+  window.scroll({
+    top: 0,
+    behavior: "instant",
+  });
+}, []);
 useEffect(() => {
  if(!token){
 Naavigate("/login")

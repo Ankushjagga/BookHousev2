@@ -45,7 +45,12 @@ const {isProductSliceFetching , isProductSliceSuccess , productSliceErrorMessage
     setAmount(amount + 1);
   };
   
-  
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      behavior: "instant",
+    });
+  }, []);
   useEffect(() => {
  dispatch(getSingleProduct(id))
 return  ()=>{

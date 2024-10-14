@@ -79,6 +79,14 @@ for (const key in errorObj) {
 
   dispatch(addCategory({name : name , image : image}));
 }
+
+
+useEffect(() => {
+  window.scroll({
+    top: 0,
+    behavior: "instant",
+  });
+}, []);
   return (
     <div>
     <h1 style={{textAlign: "center", margin : "1rem"}}> Add Category 🆕</h1>

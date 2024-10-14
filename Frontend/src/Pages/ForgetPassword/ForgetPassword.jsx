@@ -18,7 +18,12 @@ const ForgetPassword = () => {
 
   const dispatch = useDispatch()
   const {loggedInUserName, isAuthSliceSuccess , authSliceSuccessMessage , isAuthSliceError , authSliceErrorMessage} = useSelector(authData)
-
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      behavior: "instant",
+    });
+  }, []);
 
   const Navigate =useNavigate();
 

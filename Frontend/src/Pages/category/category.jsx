@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { NavLink } from 'react-router-dom'
 import Card4 from '../../components/cards/Card4'
 const category = () => {
+   useEffect(() => {
+          window.scroll({
+            top: 0,
+            behavior: "instant",
+          });
+        }, []);
   return (
  <>
  <span className="link-rec">

@@ -13,7 +13,12 @@ const { productSliceSuccessMessage,isProductSliceFetching , isProductSliceSucces
 useEffect(()=>{
   dispatch(getAllCategories())
 },[])
-
+useEffect(() => {
+  window.scroll({
+    top: 0,
+    behavior: "instant",
+  });
+}, []);
 const delCategory = (id) =>{
 const warning = confirm("Are you sure you want to delete this category");
 if(warning){

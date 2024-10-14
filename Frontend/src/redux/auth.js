@@ -299,7 +299,7 @@ Cookies.get("loginData") !== "undefined" && Cookies.get("loginData")
             state.isAuthSliceFetchingSmall = false;
             state.isAuthSliceSuccess = false;
             state.isAuthSliceError = true
-            state.authSliceErrorMessage =   "something went wrong"
+            state.authSliceErrorMessage =   payload?.message || "something went wrong"
 
  console.log(payload)
 
@@ -327,7 +327,7 @@ builder.addCase(contactUs.rejected, (state, { payload }) => {
   state.isAuthSliceFetchingSmall = false;
   state.isAuthSliceSuccess = false;
   state.isAuthSliceError = true
-  state.authSliceErrorMessage =   "something went wrong"
+  state.authSliceErrorMessage =  payload.message ||  "something went wrong"
 
 console.log(payload)
 

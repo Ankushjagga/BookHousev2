@@ -17,7 +17,12 @@ const dispatch = useDispatch()
     const [searchText, setSearchText] = useState("");
     const timeoutRef = useRef(null);
    
-
+    useEffect(() => {
+      window.scroll({
+        top: 0,
+        behavior: "instant",
+      });
+    }, []);
 useEffect(() => {
   setitem(productList)
   

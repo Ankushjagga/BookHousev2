@@ -9,6 +9,12 @@ useEffect(() => {
 dispatch(getAllOrders())
 
 }, [])
+useEffect(() => {
+  window.scroll({
+    top: 0,
+    behavior: "instant",
+  });
+}, []);
   return (
     <div>
     <h1>Orders Details :</h1>

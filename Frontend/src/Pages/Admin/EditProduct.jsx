@@ -40,6 +40,12 @@ useEffect(() => {
 dispatch(getAllCategories())
 }, [])
 useEffect(() => {
+  window.scroll({
+    top: 0,
+    behavior: "instant",
+  });
+}, []);
+useEffect(() => {
   if(isProductSliceSuccess){
    dispatch(clearAllSliceStates())
  

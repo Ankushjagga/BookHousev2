@@ -26,6 +26,7 @@ const Dashboard = () => {
         dispatch(clearAllSliceStates())
       }
       }, [isProductSliceError])
+     
   const messageArray = userDetail?.messages?.split(',');
 
 const deleteReview = (id)=>{
@@ -37,6 +38,12 @@ if(deleteReview){
 }
 }
 
+useEffect(() => {
+  window.scroll({
+    top: 0,
+    behavior: "instant",
+  });
+}, []);
 
   return (
     <>

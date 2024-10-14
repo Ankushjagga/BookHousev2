@@ -9,7 +9,12 @@ import { authData, clearAllSliceStates, resetPassword } from '../../redux/auth';
 import { useDispatch , useSelector } from 'react-redux';
 
 const ResetPassword = () => {
-    
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      behavior: "instant",
+    });
+  }, []);
   const [password,setPassword]=useState("");
   const [icon, setIcon] = useState("fa-eye-slash")
   const [passwordInput , setPasswordInput] = useState("password")

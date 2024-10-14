@@ -11,6 +11,12 @@ const Explorecategories = () => {
 
 //   return str.length > 10 ? str.substring(0, 50) + "..." : str;
 // }
+useEffect(() => {
+  window.scroll({
+    top: 0,
+    behavior: "instant",
+  });
+}, []);
 const dispatch = useDispatch();
 const {productList ,isProductSliceFetching} = useSelector(productData)
 const [user,setuser] = useState([]);

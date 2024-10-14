@@ -20,7 +20,12 @@ const delProduct = (id) =>{
     dispatch(getAllProducts({ searchValue : ""}));
   },[])
 
-
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      behavior: "instant",
+    });
+  }, []);
   useEffect(() => {
     if(isProductSliceSuccess){
      dispatch(clearAllSliceStates())

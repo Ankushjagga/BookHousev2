@@ -12,7 +12,12 @@ import 'react-toastify/dist/ReactToastify.css';
 const AdminDashboard = () => {
  const dispatch = useDispatch()
  const {userList , userCount , productList , productCount , categoryCount, productSliceSuccessMessage,isProductSliceFetching , isProductSliceSuccess , productSliceErrorMessage , isProductSliceError} =  useSelector(productData)
-
+ useEffect(() => {
+  window.scroll({
+    top: 0,
+    behavior: "instant",
+  });
+}, []);
  useEffect(() => {
   dispatch(getAllProducts({searchValue : ""}))
   dispatch(getAllUser())

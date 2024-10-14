@@ -7,7 +7,12 @@ const AdminReviews = () => {
   useEffect(() => {
    dispatch(AllproductReviews())
   }, [])
-  
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      behavior: "instant",
+    });
+  }, []);
   return (
     <div>
     <h1>Product Review Details :</h1>

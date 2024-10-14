@@ -17,7 +17,12 @@ const Explorelatest = () => {
    dispatch(getLatestProduct())
    console.log(latestProductList);
     }, [])
-    
+    useEffect(() => {
+      window.scroll({
+        top: 0,
+        behavior: "instant",
+      });
+    }, []);
     useEffect(() => {
    setData(latestProductList)
    console.log("data", data);

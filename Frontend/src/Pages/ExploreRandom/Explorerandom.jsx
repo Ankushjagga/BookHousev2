@@ -24,7 +24,12 @@ const [error, setError]= useState({
   const {randomProduct} = useSelector(productData)
 const {isProductSliceFetching ,isProductSliceError, isProductSliceSuccess , productSliceErrorMessage , productSliceSuccessMessage , productReviewsList} = useSelector(productData)
 let { id } = useParams();
-  
+useEffect(() => {
+  window.scroll({
+    top: 0,
+    behavior: "instant",
+  });
+}, []);
   useEffect(() => {
 
       dispatch(getRandomProduct())

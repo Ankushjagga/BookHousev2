@@ -207,7 +207,12 @@ setimage(link)
 }, [isFileUploading])
 
 
-
+useEffect(() => {
+  window.scroll({
+    top: 0,
+    behavior: "instant",
+  });
+}, []);
 
 console.log("Data", data.features)
   return (

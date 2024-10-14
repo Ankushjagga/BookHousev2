@@ -93,7 +93,12 @@ setError({...error , [name]:""})
     setPasswordInput("password")
   }
 }
-
+useEffect(() => {
+  window.scroll({
+    top: 0,
+    behavior: "instant",
+  });
+}, []);
 const handleSubmit = (e)=>{
   e.preventDefault();
 const newErrorObj = {   name:"", email:"",password:"", phoneNumber:""}
@@ -139,19 +144,19 @@ console.log("authslcie ", isAuthSliceSuccess)
 <form method='POST' className='loginForm signinForm'>
       <h1>Register Yourself</h1>
   <input type="text"className='inp' placeholder="Enter name"   name="name"  value={user.name} onChange={handleInputs} required/>
-  {error.name}
+  <h5 className='errors'> {error.name}</h5>
   <input type="email"className='inp' placeholder="Enter Email"   name="email" value={user.email} onChange={handleInputs}required/>
-  {error.email}
+  <h5 className='errors'> {error.email}</h5>
   <span className = "passwordSpan">
 
   <input type={passwordInput} className='inp'placeholder="Enter Password"   name="password" value={user.password} onChange={handleInputs} required/> <i className={`fa-solid ${icon}`} onClick={handleEyeClick} ></i>
-  {error.password}
+  <h5 className='errors'>{error.password}</h5> 
 </span> 
   <input type="number"className='inp' placeholder="Enter PhoneNumber"   name="phoneNumber" value={user.phoneNumber} onChange={handleInputs}  required/>
-{error.phoneNumber}
+<h5 className='errors'>{error.phoneNumber}</h5> 
 
-<button className='btn' id='bt' type="submit" placeholder='Submit' onClick={handleSubmit}>Register</button>
-{isAuthSliceFetchingSmall && <img className='load' src={smalluploadLoader} alt="Image Uploading" />}
+<button className='btn' id='bt' type="submit" placeholder='Submit' onClick={handleSubmit}>Register {isAuthSliceFetchingSmall && <img className='load' src={smalluploadLoader} alt="fetching" />}</button>
+
 
 <p style={{margin: "1rem"}} >already registered ? <NavLink to="/login"><i style={{color: "#4267B2",textDecoration:"underline"}} > login  now.</i></NavLink> </p>
 </form>

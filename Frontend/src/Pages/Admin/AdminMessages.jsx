@@ -7,7 +7,13 @@ const AdminMessages = () => {
   useEffect(() => {
    dispatch(getAllUser())
   }, [])
-  
+
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      behavior: "instant",
+    });
+  }, []);
 
   return (
     <div>

@@ -121,7 +121,12 @@ for (let key in newErrorObj) {
   dispatch(loginUser(user))
 } 
 
-
+useEffect(() => {
+  window.scroll({
+    top: 0,
+    behavior: "instant",
+  });
+}, []);
 
 
 
@@ -135,11 +140,11 @@ for (let key in newErrorObj) {
 <form method='POST' className='loginForm'>
     <h1>Login </h1>
   <input className='inp' type="email" placeholder="Enter Email"name='email' value={user.email}  onChange={handleInputs}   required/>
-  {error.email}
+ <h5 className='errors'> {error.email}</h5>
   <span className = "passwordSpan">
 
   <input  className='inp'type={passwordInput} placeholder="Enter Password"name='password'  value={user.password}  onChange={handleInputs} required/> <i className={`fa-solid ${icon}`} onClick={handleEyeClick} ></i>
-  {error.password}
+   <h5 className='errors'> {error.password} </h5>
   </span>
 
   <button className='btn' id='bt'  placeholder='Submit'onClick={handleSubmit}  >Submit 

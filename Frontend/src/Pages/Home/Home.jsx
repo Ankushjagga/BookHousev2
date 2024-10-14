@@ -46,8 +46,13 @@ const Home = () => {
         theme: "light",
         });
      }
-   
-
+     useEffect(() => {
+      window.scroll({
+        top: 0,
+        behavior: "instant",
+      });
+    }, []);
+ 
   return (
     <>
     {/* {isProductSliceFetching && <ComponentLoader/>} */}
